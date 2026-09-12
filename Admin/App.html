@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drive Link Generator</title>
+
+<style>
+body{
+background:#f2f2f2;
+font-family:sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.card{
+background:white;
+padding:25px;
+width:90%;
+max-width:400px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:10px;
+}
+
+textarea{
+width:100%;
+margin-top:15px;
+padding:12px;
+border:2px dashed orange;
+border-radius:10px;
+resize:none;
+height:70px;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:12px;
+background:#f57c00;
+border:none;
+color:white;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>Drive Video Link</h2>
+
+<p>Google Drive ලින්ක් එක Paste කරන්න:</p>
+
+<input type="text" id="driveLink" placeholder="https://drive.google.com/file/d/xxxx">
+
+<textarea id="result" placeholder="Generated link මෙතන පෙන්වයි..." readonly></textarea>
+
+<button onclick="generateLink()">Generate & Copy</button>
+
+</div>
+
+<script>
+function generateLink(){
+
+let link=document.getElementById("driveLink").value;
+let match=link.match(/\/d\/(.*?)\//);
+
+if(match && match[1]){
+
+let fileId=match[1];
+let direct=""+fileId;
+
+let output=document.getElementById("result");
+output.value=direct;
+
+// Auto select
+output.select();
+output.setSelectionRange(0, 99999);
+
+// Copy fallback method
+try{
+document.execCommand("copy");
+alert("Link Copied Successfully!");
+}catch(err){
+alert("Copy fail! Long press කරලා Copy කරන්න.");
+}
+
+}else{
+alert("වැරදි Drive Link එකක්!");
+}
+
+}
+</script>
+
+</body>
+</html>

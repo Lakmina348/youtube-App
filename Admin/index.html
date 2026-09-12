@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Lock | Lakmina</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: #020617; /* index.html හි පසුබිමට සමානයි */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .lock-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ආරක්ෂිත වළල්ල */
+        .scan-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px solid rgba(37, 99, 235, 0.1);
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: -35px;
+        }
+
+        .icon-box {
+            font-size: 50px;
+            z-index: 10;
+            filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.5));
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        /* ස්කෑන් වන රේඛාව */
+        .scan-line {
+            width: 150px;
+            height: 2px;
+            background: #7c3aed;
+            box-shadow: 0 0 15px #7c3aed;
+            position: absolute;
+            top: 25px;
+            animation: scan 2s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        .text-frame {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .main-status {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .sub-status {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        /* Animations */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        @keyframes scan {
+            0%, 100% { transform: translateY(-40px); opacity: 0; }
+            50% { transform: translateY(40px); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.6s forwards;
+        }
+        @keyframes fadeOut { to { opacity: 0; filter: blur(10px); } }
+    </style>
+</head>
+<body>
+
+    <div class="lock-wrapper" id="content">
+        <div class="scan-circle"></div>
+        <div class="scan-line"></div>
+        <div class="icon-box">🔐</div>
+        
+        <div class="text-frame">
+            <div class="main-status" id="msg">SYSTEM LOCKED</div>
+            <div class="sub-status">Authorized Access Only</div>
+        </div>
+    </div>
+
+    <script>
+        // Redirect විය යුතු ලොකේෂන් එක
+        const targetUrl = "Lock.html"; 
+
+        // තත්පර 1.5 කදී පණිවිඩය වෙනස් වේ
+        setTimeout(() => {
+            document.getElementById('msg').innerText = "ACCESS GRANTED";
+            document.getElementById('msg').style.color = "#22c55e"; // කොළ පැහැය
+        }, 1800);
+
+        // තත්පර 3 කින් Redirect වේ
+        setTimeout(() => {
+            document.getElementById('content').classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 600);
+        }, 3000);
+    </script>
+
+</body>
+</html>

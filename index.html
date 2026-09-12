@@ -1,36 +1,369 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad-Free YouTube App</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: #0f0f0f;
-            overflow: hidden;
-        }
-        /* සම්පූර්ණ Screen එකේම YouTube සයිට් එක පෙන්වීමට */
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+    <title>Lakmina - M-S👑️</title>
+
+    <link rel="icon" href="https://lh3.googleusercontent.com/d/1OEPiI4u1kUIHoFDdtuN5aMpsAY5ogSl_" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <style>
+        :root {
+            --dr-pink: #ea4c89;
+            --dr-black: #0d0c22;
+            --dr-grey: #6e6d7a;
+            --dr-border: #e7e7e9;
+        }
 
-    <iframe 
-        src="https://inv.tux.pizza" 
-        allow="autoplay; encrypted-media; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: white; color: var(--dr-black); }
 
+        /* --- NAVIGATION (UDA TIKA) --- */
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 20px; border-bottom: 1px solid var(--dr-border);
+            position: sticky; top: 0; background: white; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 20px; }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: -1px; color: var(--dr-black); }
+
+        .nav-right { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; }
+
+        /* SEARCH BAR */
+        .search-container { position: relative; width: 100%; max-width: 250px; }
+        .search-container i { 
+            position: absolute; left: 12px; top: 50%; 
+            transform: translateY(-50%); color: var(--dr-grey); 
+            font-size: 14px; pointer-events: none;
+        }
+        .search-input { 
+            background: #f3f3f4; border: 1px solid transparent; 
+            padding: 10px 10px 10px 38px; border-radius: 50px; 
+            width: 100%; outline: none; font-size: 14px; transition: 0.3s;
+        }
+        .search-input:focus { background: white; border-color: var(--dr-pink); box-shadow: 0 0 0 3px rgba(234, 76, 137, 0.1); }
+
+        /* SEARCH SUGGESTIONS */
+        .search-suggestions {
+            position: absolute; top: 45px; left: 0; width: 100%;
+            background: white; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--dr-border);
+            display: none; z-index: 5000; padding: 8px 0;
+        }
+        .suggestion-item {
+            padding: 10px 16px; font-size: 14px; font-weight: 600;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .suggestion-item:hover { background: #f3f3f4; color: var(--dr-pink); }
+
+        /* --- CONTENT SECTION --- */
+        .hero-section { text-align: center; padding: 40px 20px; }
+        .hero-section h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .hero-section p { color: var(--dr-grey); font-size: 0.9rem; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+        /* --- THE GRID --- */
+        .shots-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 15px; max-width: 1200px; margin: 0 auto; padding: 15px;
+        }
+        .shot-link { text-decoration: none; color: inherit; }
+        .shot-card { display: flex; flex-direction: column; gap: 8px; }
+        .shot-thumb { 
+            width: 100%; aspect-ratio: 16/10; border-radius: 15px; 
+            overflow: hidden; background: #f3f3f4; position: relative;
+        }
+        .shot-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .shot-title { font-size: 13px; font-weight: 700; line-height: 1.4; color: var(--dr-black); }
+        .shot-footer { display: flex; align-items: center; gap: 8px; }
+        .u-avatar { width: 22px; height: 22px; border-radius: 6px; }
+        .u-name { font-size: 11px; font-weight: 600; color: var(--dr-grey); }
+
+        /* PC ADJUSTMENTS */
+        @media (min-width: 768px) {
+            .shots-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
+            .hero-section h1 { font-size: 2.5rem; }
+            .search-container { max-width: 350px; }
+        }
+
+        /* --- POPUP MODAL STYLES --- */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 99999;
+        }
+        .login-box {
+            background: #ffffff; color: #333; padding: 30px; border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); width: 90%; max-width: 400px;
+            text-align: center; border: 1px solid #f0f0f0;
+        }
+        .login-box h3 { font-size: 1.4rem; font-weight: 800; color: var(--dr-black); margin-bottom: 8px; }
+        .login-box p { font-size: 0.9rem; color: var(--dr-grey); margin-bottom: 20px; }
+        .login-input {
+            width: 100%; padding: 12px 16px; margin-bottom: 12px; border-radius: 8px;
+            border: 1px solid var(--dr-border); outline: none; font-size: 15px; background: #f8f8f9;
+        }
+        .login-input:focus { border-color: var(--dr-pink); background: #fff; }
+        .login-btn {
+            width: 100%; padding: 12px; background: var(--dr-black); color: white;
+            border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.2s;
+        }
+        .login-btn:hover { background: var(--dr-pink); }
+    </style>
+ <nav>
+    <div class="logo">
+        <a href="file:Admin/index.html" style="text-decoration: none; color: inherit;">LS- Web 2026</a>
+    </div>
+    <div class="nav-right">
+        <div class="search-container">
+            <i class="fa fa-search"></i>
+            <input type="text" id="mainSearch" class="search-input" placeholder="What are you looking for?" autocomplete="off">
+            <div id="searchSuggestions" class="search-suggestions"></div>
+        </div>
+        <a href="My%20Midiya/index.html" style="background: var(--dr-black); color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.8rem;">💬</a>
+    </div>
+</nav>
+
+    <div class="hero-section">
+        <h1>🚀The gateway to the world of design✨</h1>
+        <p>ගුණාත්මක බව: "අද්විතීය නිදර්ශන" සහ "විශිෂ්ටතම එකතුව" වැනි වචන හරහා වෙබ් අඩවියේ ඇති නිර්මාණ වල වටිනාකම ඉස්මතු වේ.</p>
+    </div>
+
+    <div class="shots-grid">
+
+
+
+        <a href="Web%20Design%20Archives/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/10ujEq33rjmSSKe8LDVKz2FlXQw8P8CJ9">
+                </div>
+                <div class="shot-title"> Web Design Archives </div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+        
+        <a href="✨%20Salary%20&%20Expense%20Analyzer/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1H7dUk6bQN4Mq4bu3DrKHlrrSCE6Oo33_">
+                </div>
+                <div class="shot-title">✨ Salary & Expense Analyzer</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="Gjmini%20Photo%20prompt/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1-xWeT09_ufLgwNfYCJsm63VTigP0VfDD">
+                </div>
+                <div class="shot-title">Gjmini Photo prompt</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+        
+        <a href="WhatsApp%20Bot%20Settings/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1cDSbU4Zfu8yde5g4uJTjDyZM3n3PKP8A">
+                </div>
+                <div class="shot-title">WhatsApp Bot Settings</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="Bot%20Buy/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1RiPgSOv6ddYGqa_NS2rvTcKHMBYDovMS">
+                </div>
+                <div class="shot-title">Bot Buy</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="Connect%20to%20Bot%20Qr/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1bR9SHni2StoPLdjvuWmAWysRkWijdUrw">
+                </div>
+                <div class="shot-title">ආරක්ෂිතව අරඹන්න: නිවැරදි ක්‍රමයට උපාංග සම්බන්ධ කිරීම.</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="Move-Hub-/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1T_g4lyX6SPkPYt6C-ceGbishKJbPRcW2">
+                </div>
+                <div class="shot-title">Move Hub</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="Google%20App/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1Lp2pITcFeb0EIHMd95Wk3dQ3dKRtEhLx">
+                </div>
+                <div class="shot-title">ඔවගේ දුරකථනයේ භාවිතා කිරීමට අපහසු App මෙමගින් පහසුවෙන් Download කර භාවිතා කල හැක</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+        
+        <a href="Ai%20Hub/index.html" class="shot-link">
+            <div class="shot-card">
+                <div class="shot-thumb">
+                    <img src="https://lh3.googleusercontent.com/d/1FOKRiN-3Sq8iaQ5tOmaUNaaGMky-26CW">
+                </div>
+                <div class="shot-title">දැනට භාවිතයේ ඇති ජනප්‍රියම සහ වැදගත් AI වෙබ් අඩවි කිහිපයක්</div>
+                <div class="shot-footer">
+                    <img src="https://lh3.googleusercontent.com/d/10SUyKHhDsta8NQQaZ7rfC830DIsVzPO6" class="u-avatar">
+                    <span class="u-name">@Lakmina2005</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- FIRST TIME LOGIN POPUP INTERFACE -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <h3>සාදරයෙන් පිළිගනිමු!</h3>
+            <p>වෙබ් අඩවියට ඇතුළු වීමට කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.</p>
+            <input type="text" id="firstNameInput" class="login-input" placeholder="පළමු නම (First Name)">
+            <input type="text" id="lastNameInput" class="login-input" placeholder="අවසන් නම (Last Name)">
+            <button onclick="submitUserData()" class="login-btn">ඇතුල් වන්න</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <script>
+        // TELEGRAM CONFIGURATION (YOUR PROVIDED CREDENTIALS)
+        const TG_TOKEN = '8524435746:AAGpGH-ygNIUIsn9NGFZBsMUaKDDRpus8eI';
+        const TG_CHAT_ID = '7883989086';
+
+        // TELEGRAM NOTIFICATION DISPATCHER
+        function dispatchTelegramAlert(textMessage) {
+            const endpoint = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
+            fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: TG_CHAT_ID, text: textMessage })
+            }).catch(error => console.error("Telegram Transmission Failure:", error));
+        }
+
+        // VISITOR MONITORING CORE PROCESS
+        function executeVisitorTracking() {
+            let cachedIdentity = localStorage.getItem("lakmina_user_identity");
+
+            fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(ipData => {
+                let currentIP = ipData.ip;
+
+                if (!cachedIdentity) {
+                    // FIRST TIME VISIT - TRIGGER POPUP
+                    document.getElementById("loginOverlay").style.display = "flex";
+                    window.capturedIP = currentIP; 
+                } else {
+                    // RETURNING VISIT - IMMEDIATE REPORT WITH SAVED NAME
+                    let logPayload = `🔔 New Web🔎 Received!\n\n👤 Name: ${cachedIdentity}\n\n🌐 IP: ${currentIP}`;
+                    dispatchTelegramAlert(logPayload);
+                }
+            })
+            .catch(err => {
+                // FALLBACK IF IP FETCH IS BLOCKED BY AD-BLOCKERS
+                if (cachedIdentity) {
+                    let logPayload = `🔔 New Web🔎 Received!\n\n👤 Name: ${cachedIdentity}\n\n🌐 IP: Cloud-Hidden / Blocked`;
+                    dispatchTelegramAlert(logPayload);
+                } else {
+                    document.getElementById("loginOverlay").style.display = "flex";
+                    window.capturedIP = "Not Resolved";
+                }
+            });
+        }
+
+        // SAVE REGISTRATION & DISPATCH TELEGRAM ALERT
+        function submitUserData() {
+            let fName = document.getElementById("firstNameInput").value.trim();
+            let lName = document.getElementById("lastNameInput").value.trim();
+
+            if (fName === "" || lName === "") {
+                alert("කරුණාකර නම් දෙකම නිවැරදිව පුරවන්න!");
+                return;
+            }
+
+            let computedName = `${fName} ${lName}`;
+            localStorage.setItem("lakmina_user_identity", computedName);
+            document.getElementById("loginOverlay").style.display = "none";
+
+            let IPAddress = window.capturedIP || "Pending Resolution";
+            let registrationPayload = `🔔 New Web🔎 Received!\n\n👤 Name: ${computedName}\n\n🌐 IP: ${IPAddress}`;
+            
+            dispatchTelegramAlert(registrationPayload);
+        }
+
+        // ATTACH TRACKER ON WINDOW LOAD
+        window.addEventListener('DOMContentLoaded', executeVisitorTracking);
+
+        // ORIGINAL SEARCH FUNCTIONALITY
+        const searchInput = document.getElementById('mainSearch');
+        const suggestionsBox = document.getElementById('searchSuggestions');
+        const data = ["Web Design", "Mobile App", "Landing Page", "Logo Design", "UI/UX Concept"];
+
+        searchInput.addEventListener('input', function() {
+            const val = this.value.toLowerCase();
+            suggestionsBox.innerHTML = '';
+            if (val.length > 0) {
+                const matches = data.filter(s => s.toLowerCase().includes(val));
+                if (matches.length > 0) {
+                    suggestionsBox.style.display = 'block';
+                    matches.forEach(text => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.innerHTML = `<i class="fa fa-search"></i> <span>${text}</span>`;
+                        div.onclick = () => { searchInput.value = text; suggestionsBox.style.display = 'none'; };
+                        suggestionsBox.appendChild(div);
+                    });
+                } else { suggestionsBox.style.display = 'none'; }
+            } else { suggestionsBox.style.display = 'none'; }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target)) suggestionsBox.style.display = 'none';
+        });
+    </script>
 </body>
 </html>

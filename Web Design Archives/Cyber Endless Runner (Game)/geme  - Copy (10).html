@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LS King👑️ - Level 10 Grand Finale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050509;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 10px;
+            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        h1 {
+            font-size: 16px;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00f3ff;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .persistent-nav {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 460px;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            font-size: 11px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border: 1px solid #3b82f6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            transition: transform 0.1s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .status-panel {
+            font-size: 12px;
+            color: #00f3ff;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+            text-align: center;
+        }
+
+        .game-container {
+            background-color: #0b0f19;
+            border: 2px solid #00f3ff;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            width: 100%;
+            max-width: 460px;
+            aspect-ratio: 1;
+            display: grid;
+            grid-template-columns: repeat(22, 1fr);
+            grid-template-rows: repeat(22, 1fr);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .cell {
+            border: 1px solid rgba(0, 243, 255, 0.012);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .wall {
+            background-color: #1e293b;
+            box-shadow: inset 0 0 2px #00f3ff;
+            border: 1px solid #00f3ff;
+        }
+
+        .player {
+            color: #ff007c;
+            text-shadow: 0 0 5px #ff007c;
+            z-index: 2;
+        }
+
+        .key {
+            color: #eab308;
+            text-shadow: 0 0 5px #eab308;
+        }
+
+        .door {
+            color: #10b981;
+            text-shadow: 0 0 5px #10b981;
+        }
+
+        .trap {
+            color: #ef4444;
+            text-shadow: 0 0 4px #ef4444;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(3, 50px);
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ctrl-btn {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+            transition: transform 0.1s;
+        }
+
+        .ctrl-btn:active {
+            transform: scale(0.92);
+        }
+
+        .btn-up { grid-column: 2; grid-row: 1; }
+        .btn-left { grid-column: 1; grid-row: 2; }
+        .btn-right { grid-column: 3; grid-row: 2; }
+        .btn-down { grid-column: 2; grid-row: 3; }
+
+        .message-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 9, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .message-box h2 {
+            color: #ff007c;
+            text-shadow: 0 0 10px #ff007c;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<h1>LS King👑️ - Level 10 (Grand Finale)</h1>
+
+<div class="persistent-nav">
+    <a href="geme  - Copy (9).html" class="nav-btn">⬅️ කලින් මට්ටමට</a>
+    <a href="geme  - Copy (11).html" class="nav-btn next">ඊළඟ මට්ටම ➡️</a>
+</div>
+
+<div class="status-panel" id="statusText">තත්ත්වය: අවසාන මට්ටමයි! පරිස්සමින් යතුර සොයා ගන්න! 🔑</div>
+
+<div class="game-container" id="gameGrid">
+    <div class="message-box" id="messageBox">
+        <h2 id="msgTitle">ක්‍රීඩාව අවසන්!</h2>
+        <button class="restart-btn" onclick="resetGame()">නැවත උත්සාහ කරන්න</button>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="ctrl-btn btn-up" onclick="movePlayer(0, -1)"><i class="fa fa-chevron-up"></i></button>
+    <button class="ctrl-btn btn-left" onclick="movePlayer(-1, 0)"><i class="fa fa-chevron-left"></i></button>
+    <button class="ctrl-btn btn-right" onclick="movePlayer(1, 0)"><i class="fa fa-chevron-right"></i></button>
+    <button class="ctrl-btn btn-down" onclick="movePlayer(0, 1)"><i class="fa fa-chevron-down"></i></button>
+</div>
+
+<script>
+    const width = 22;
+    const height = 22;
+    
+    // 22x22 map array (484 elements) designed with safe paths, traps (5), key (3), and door (4)
+    const initialMap = [
+        0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,5,0,0,0,1,5,0,
+        1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,0,1,
+        1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,1,
+        1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1,0,1,
+        0,0,0,0,0,0,1,0,5,0,0,0,0,0,5,0,0,0,0,1,0,1,
+        0,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1,0,1,
+        0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,5,1,0,1,0,1,
+        1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,0,1,
+        0,5,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,
+        0,1,1,1,1,1,1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1,
+        0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1,
+        1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,
+        0,0,5,0,0,0,0,0,0,0,0,0,0,1,0,0,0,5,0,1,0,1,
+        0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,0,1,
+        0,3,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,
+        0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,0,1,
+        0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,
+        1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,0,1,0,1,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,
+        0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+    ];
+
+    let map = [...initialMap];
+    let playerPos = 0; 
+    let hasKey = false;
+
+    function renderGame() {
+        const grid = document.getElementById('gameGrid');
+        const msgBox = document.getElementById('messageBox');
+        grid.innerHTML = '';
+        grid.appendChild(msgBox);
+
+        for (let i = 0; i < map.length; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+
+            if (i === playerPos) {
+                cell.classList.add('player');
+                cell.innerHTML = '<i class="fa-solid fa-robot"></i>';
+            } else if (map[i] === 1) {
+                cell.classList.add('wall');
+            } else if (map[i] === 3 && !hasKey) {
+                cell.classList.add('key');
+                cell.innerHTML = '<i class="fa-solid fa-key"></i>';
+            } else if (map[i] === 4) {
+                cell.classList.add('door');
+                cell.innerHTML = '<i class="fa-solid fa-door-closed"></i>';
+            } else if (map[i] === 5) {
+                cell.classList.add('trap');
+                cell.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            }
+            grid.appendChild(cell);
+        }
+    }
+
+    function movePlayer(dx, dy) {
+        let x = playerPos % width;
+        let y = Math.floor(playerPos / width);
+
+        let newX = x + dx;
+        let newY = y + dy;
+
+        if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+            let newPos = newY * width + newX;
+
+            if (map[newPos] === 1) {
+                return; 
+            }
+
+            if (map[newPos] === 5) {
+                playerPos = newPos;
+                renderGame();
+                endGame(false, "අයියෝ Lakmina King👑️! ඔබ උගුලකට අසු විය!");
+                return;
+            }
+
+            if (map[newPos] === 3) {
+                hasKey = true;
+                map[newPos] = 0;
+                document.getElementById('statusText').innerText = "තත්ත්වය: යතුර හමුවුණා! දැන් අවසන් දොර වෙත යන්න! 🚪";
+            }
+
+            if (map[newPos] === 4) {
+                if (hasKey) {
+                    playerPos = newPos;
+                    renderGame();
+                    endGame(true, "සුබ පැතුම් Lakmina King👑️! ඔබ සියලු මට්ටම් සාර්ථකව ජයග්‍රහණය කළා! 🎉🏆");
+                    return;
+                } else {
+                    document.getElementById('statusText').innerText = "තත්ත්වය: දොර අගුළු දමා ඇත! පළමුව යතුර සොයන්න!";
+                    return; 
+                }
+            }
+
+            playerPos = newPos;
+            renderGame();
+        }
+    }
+
+    function endGame(won, message) {
+        const msgBox = document.getElementById('messageBox');
+        const msgTitle = document.getElementById('msgTitle');
+        msgBox.style.display = 'flex';
+        msgTitle.innerText = message;
+        if (won) {
+            msgTitle.style.color = "#10b981";
+        } else {
+            msgTitle.style.color = "#ef4444";
+        }
+    }
+
+    function resetGame() {
+        map = [...initialMap];
+        playerPos = 0;
+        hasKey = false;
+        document.getElementById('messageBox').style.display = 'none';
+        document.getElementById('statusText').innerText = "තත්ත්වය: අවසාන මට්ටමයි! පරිස්සමින් යතුර සොයා ගන්න! 🔑";
+        renderGame();
+    }
+
+    renderGame();
+</script>
+
+</body>
+</html>

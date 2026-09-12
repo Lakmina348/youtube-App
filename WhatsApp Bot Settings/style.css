@@ -1,0 +1,42 @@
+/* style.css */
+:root {
+    --primary: #25D366;
+    --off: #ff4b2b;
+    --dark: #0b141a;
+    --card-bg: #1e2a30;
+    --text-main: #e9edef;
+    --accent: #34b7f1;
+}
+
+/* ... අනෙකුත් සියලුම CSS කේත මෙතැන පේස්ට් කරන්න ... */
+
+.search-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+#commandSearch {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.suggestions {
+    position: absolute;
+    top: 60px;
+    background: #1e2a30;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    z-index: 1000;
+    display: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

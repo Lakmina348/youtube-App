@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakmina Premium Command Center</title>
+    <style>
+        :root {
+            --primary: #25D366;
+            --off: #ff4b2b;
+            --dark: #0b141a;
+            --card-bg: #1e2a30;
+            --text-main: #e9edef;
+            --accent: #34b7f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 1px solid #2a3942;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .header h1 { color: var(--primary); font-size: 2.5rem; margin: 0; }
+
+        .location-info {
+            margin: 15px 0;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(37, 211, 102, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--primary);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            color: var(--accent);
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            background: rgba(52, 183, 241, 0.05);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #2a3942;
+            transition: 0.3s;
+        }
+
+        .card:hover { border-color: var(--primary); transform: translateY(-3px); }
+
+        .card h3 { margin: 0 0 10px 0; color: var(--primary); font-size: 1.1rem; }
+        .card p { font-size: 0.9rem; color: #8696a0; margin-bottom: 15px; }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .cmd-item {
+            background: #0b141a;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #374045;
+        }
+
+        .cmd-text { font-family: monospace; color: #ffcc00; font-size: 0.9rem; }
+
+        .copy-btn {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.75rem;
+            transition: 0.2s;
+        }
+
+        .btn-on { background: var(--primary); color: #000; }
+        .btn-off { background: var(--off); color: #fff; }
+        .btn-help { background: var(--accent); color: #fff; }
+
+        .copy-btn:active { transform: scale(0.9); }
+
+        .more-info {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .more-btn {
+            text-decoration: none;
+            background: var(--accent);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .footer { margin-top: 50px; color: #8696a0; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+
+    <div class="search-wrapper">
+    <div class="search-box">
+        <input type="text" id="commandSearch" placeholder="විධානයක් සොයන්න..." autocomplete="off">
+        <div id="suggestion-box" class="suggestions"></div>
+    </div>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</div>
+
+    <h1>🤖 Lakmina Command Dashboard</h1>
+  <div class="location-info">📍 Sri Lanka</div>
+    <p>සියලුම සේවාවන් ON/OFF කිරීමට සහ උපකාරී විධානයන් (Help) කොපි කිරීමට මෙය භාවිතා කරන්න.</p>
+</div>
+
+<div class="more-info">
+    <a href="../My%20Midiya/index.html" class="more-btn">🔍 වැඩි විස්තර බලන්න</a>
+</div>
+
+<div class="container">
+
+    <div class="section-title">🔖Lakmina Bot පාලනය සදහා භාවිතා කරන්න</div>
+
+    <div class="card">
+    <h3>📊 Active (Leaderboard)</h3>
+    <p>මෙම පහසුකම මගින් සමූහයක සිටින සාමාජිකයින් අතරින් වැඩිපුරම පණිවිඩ එවන්නේ කවුද යන්න නිරීක්ෂණය කර ලැයිස්තුවක් ලෙස පෙන්වයි. මෙය සමූහය වඩාත් සක්‍රීය (Active) කිරීමට උපකාරී වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help active</span> <button class="copy-btn btn-help" onclick="cp('.help active', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.active</span> <button class="copy-btn btn-on" onclick="cp('.active', this)">Copy Active</button></div>
+        <div class="cmd-item"><span class="cmd-text">.leaderboard</span> <button class="copy-btn btn-off" onclick="cp('.leaderboard', this)">Copy Leaderboard</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>⚡ Alive (Status)</h3>
+    <p>බොට් එක සක්‍රීයව පවතීද යන්න පරීක්ෂා කිරීම, පද්ධතියේ තොරතුරු බැලීම සහ දිනපතා ආදර්ශ පාඨ ලබා ගැනීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help alive</span> <button class="copy-btn btn-help" onclick="cp('.help alive', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.alive</span> <button class="copy-btn btn-on" onclick="cp('.alive', this)">Copy Alive</button></div>
+        <div class="cmd-item"><span class="cmd-text">.uptime</span> <button class="copy-btn btn-off" onclick="cp('.uptime', this)">Copy Uptime</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🛡️ Antilink ආරක්ෂාව</h3>
+    <p>සමූහය තුළ පණිවිඩ මකා දැමීම සහ ලින්ක් එවන පුද්ගලයින්ට ස්වයංක්‍රීයව දඬුවම් ලබා දීම මගින් සමූහයේ ආරක්ෂාව තහවුරු කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help antilink</span> <button class="copy-btn btn-help" onclick="cp('.help antilink', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antilink on</span> <button class="copy-btn btn-on" onclick="cp('.antilink on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antilink off</span> <button class="copy-btn btn-off" onclick="cp('.antilink off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👺 AutoReact (Reactions)</h3>
+    <p>සමූහය තුළ විශේෂිත වචන භාවිතා කරන විට බොට් විසින් ස්වයංක්‍රීයව ඒ සඳහා Emoji ප්‍රතික්‍රියා (Reactions) ලබා දීම සිදු කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autoreact</span> <button class="copy-btn btn-help" onclick="cp('.help autoreact', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoreact on</span> <button class="copy-btn btn-on" onclick="cp('.autoreact on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoreact off</span> <button class="copy-btn btn-off" onclick="cp('.autoreact off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💬 Filter (Auto-Reply)</h3>
+    <p>සමූහය තුළ විශේෂිත වචන හෝ වාක්‍ය ඛණ්ඩ සඳහන් කළ විට ඒ සඳහා ස්වයංක්‍රීයව (Auto-reply) පිළිතුරු ලබා දීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help filter</span> <button class="copy-btn btn-help" onclick="cp('.help filter', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.filter [වචනය] [පිළිතුර]</span> <button class="copy-btn btn-on" onclick="cp('.filter', this)">Set Filter</button></div>
+        <div class="cmd-item"><span class="cmd-text">.stop [වචනය]</span> <button class="copy-btn btn-off" onclick="cp('.stop', this)">Stop Filter</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📝 GAdd (Global Logs)</h3>
+    <p>සියලුම සමූහයන්හි සාමාජිකයින් එක්වීම් සහ ඉවත්වීම් පිළිබඳ වාර්තා (Reports) ස්වයංක්‍රීයව ඔබගේ Log Channel එකට ලබා දීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help gadd</span> <button class="copy-btn btn-help" onclick="cp('.help gadd', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gadd on</span> <button class="copy-btn btn-on" onclick="cp('.gadd on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gadd off</span> <button class="copy-btn btn-off" onclick="cp('.gadd off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔇 GroupMute (Auto-Close)</h3>
+    <p>දිනපතා නිශ්චිත වේලාවන්හිදී සමූහය ස්වයංක්‍රීයව වසා දැමීම (Mute) සහ නැවත විවෘත කිරීම (Unmute) මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help groupmute</span> <button class="copy-btn btn-help" onclick="cp('.help groupmute', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.mute [කාලය]</span> <button class="copy-btn btn-on" onclick="cp('.mute', this)">Set Mute</button></div>
+        <div class="cmd-item"><span class="cmd-text">.unmute [කාලය]</span> <button class="copy-btn btn-off" onclick="cp('.unmute', this)">Set Unmute</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📢 GroupStatus (Bubbles)</h3>
+    <p>සමූහය තුළ නිල පණිවිඩ (Status style) සෘජුවම ප්‍රදර්ශනය කිරීම හෝ ඒවා නියමිත වේලාවකට ලැබෙන ලෙස සැකසීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help gstatus</span> <button class="copy-btn btn-help" onclick="cp('.help gstatus', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gstatus [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.gstatus', this)">Send Status</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gstatus schedule</span> <button class="copy-btn btn-off" onclick="cp('.gstatus schedule', this)">Schedule</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📢 GSBML (Anti-Status)</h3>
+    <p>සාමාජිකයින් විසින් සමූහය තුළට Forward කරනු ලබන Status පණිවිඩ ස්වයංක්‍රීයව හඳුනාගෙන ඒවා මකා දැමීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help gsbml</span> <button class="copy-btn btn-help" onclick="cp('.help gsbml', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gsbml on</span> <button class="copy-btn btn-on" onclick="cp('.gsbml on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gsbml off</span> <button class="copy-btn btn-off" onclick="cp('.gsbml off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👢 Kick (Moderation)</h3>
+    <p>සමූහයේ නීති කඩකරන සාමාජිකයින්ව reply, mention හෝ අංකය මගින් ක්ෂණිකව ඉවත් කිරීම සහ සියලුම සාමාජිකයින් එකවර ඉවත් කිරීමේ (Kick All) හැකියාව මෙහි පවතී.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help kick</span> <button class="copy-btn btn-help" onclick="cp('.help kick', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.kick</span> <button class="copy-btn btn-on" onclick="cp('.kick', this)">Copy Kick</button></div>
+        <div class="cmd-item"><span class="cmd-text">.kickall</span> <button class="copy-btn btn-off" onclick="cp('.kickall', this)">Copy Kick All</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🌐 Language (Multilingual)</h3>
+    <p>බොට් ක්‍රියාත්මක වන භාෂාව වෙනස් කිරීමේ හැකියාව පවතී (භාෂා 7ක් සඳහා සහය දක්වයි). ඔබ කැමති භාෂාවකට බොට්ගේ ප්‍රතිචාර සකසා ගත හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help language</span> <button class="copy-btn btn-help" onclick="cp('.help language', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.lang</span> <button class="copy-btn btn-on" onclick="cp('.lang', this)">Copy Lang</button></div>
+        <div class="cmd-item"><span class="cmd-text">.lang si</span> <button class="copy-btn btn-off" onclick="cp('.lang si', this)">Copy Sinhala</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👋 Leave (Farewell)</h3>
+    <p>සමූහයෙන් ඉවත් වන සාමාජිකයින්ට ස්වයංක්‍රීයව පෞද්ගලික පණිවිඩයක් (PM) යවා ඔවුන්ට සමුදීම හෝ අදහස් විමසීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help leave</span> <button class="copy-btn btn-help" onclick="cp('.help leave', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.leave message [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.leave message', this)">Set Msg</button></div>
+        <div class="cmd-item"><span class="cmd-text">.leave off</span> <button class="copy-btn btn-off" onclick="cp('.leave off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👋 Left (Bot Exit)</h3>
+    <p>දැනට බොට් රැඳී සිටින සමූහයෙන් බොට්ව වහාම ඉවත් කිරීම (Exit) සඳහා මෙම පහසුකම භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help left</span> <button class="copy-btn btn-help" onclick="cp('.help left', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.left</span> <button class="copy-btn btn-off" onclick="cp('.left', this)">Copy Exit</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔒 Lock (Censorship)</h3>
+    <p>විශේෂිත වචන, වාක්‍ය ඛණ්ඩ හෝ මාධ්‍ය වර්ග (Stickers/Videos) සමූහය තුළ තහනම් කිරීම සහ ඒවා එවූ සැණින් මකා දැමීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help lock</span> <button class="copy-btn btn-help" onclick="cp('.help lock', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.lock [වචනය/මාධ්‍යය]</span> <button class="copy-btn btn-on" onclick="cp('.lock', this)">Copy Lock</button></div>
+        <div class="cmd-item"><span class="cmd-text">.unlock [වචනය/මාධ්‍යය]</span> <button class="copy-btn btn-off" onclick="cp('.unlock', this)">Copy Unlock</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👮 Promote (Admins)</h3>
+    <p>සමූහයේ සාමාජිකයින්ට පරිපාලක (Admin) තනතුරු ලබා දීම හෝ ලබා දී ඇති තනතුරු ඉවත් කිරීම (Demote) මෙහිදී ක්ෂණිකව සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help promote</span> <button class="copy-btn btn-help" onclick="cp('.help promote', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.promote</span> <button class="copy-btn btn-on" onclick="cp('.promote', this)">Copy Promote</button></div>
+        <div class="cmd-item"><span class="cmd-text">.demote</span> <button class="copy-btn btn-off" onclick="cp('.demote', this)">Copy Demote</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📅 Sched (Scheduler)</h3>
+    <p>පණිවිඩ දිනපතා අඛණ්ඩව යැවීමට හෝ අනාගතයේ යම් නිශ්චිත දිනයක සහ වේලාවකදී ස්වයංක්‍රීයව යැවීමට මෙමගින් කාලසටහන් සකස් කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help sched</span> <button class="copy-btn btn-help" onclick="cp('.help sched', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.sched [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.sched', this)">Set Sched</button></div>
+        <div class="cmd-item"><span class="cmd-text">.getsched</span> <button class="copy-btn btn-off" onclick="cp('.getsched', this)">View All</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🚫 Spam (Anti-Flood)</h3>
+    <p>කෙටි කාලයකදී පණිවිඩ විශාල ප්‍රමාණයක් එවන පුද්ගලයින් (Flooding) හඳුනාගෙන ඔවුන්ව සමූහයෙන් ඉවත් කිරීම හෝ පාලනය කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help spam</span> <button class="copy-btn btn-help" onclick="cp('.help spam', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antispam on</span> <button class="copy-btn btn-on" onclick="cp('.antispam on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antispam off</span> <button class="copy-btn btn-off" onclick="cp('.antispam off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🏷️ Tag (Mentions)</h3>
+    <p>සමූහයේ සිටින සියලුම සාමාජිකයින්ව එකවර Tag කිරීමේ හැකියාව පවතී. මෙහිදී නම් පෙනෙන පරිදි හෝ රහසිගතව (Ghost Tag) පණිවිඩ යැවිය හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help tag</span> <button class="copy-btn btn-help" onclick="cp('.help tag', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.tag [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.tag', this)">Tag All</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gtag [පණිවිඩය]</span> <button class="copy-btn btn-off" onclick="cp('.gtag', this)">Ghost Tag</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>⚠️ Warn (Punishment)</h3>
+    <p>සමූහයේ නීති කඩකරන සාමාජිකයින්ට අවවාද කිරීම සහ ඔවුන් නියමිත වාර ගණන ඉක්මවා නීති කඩකළහොත් ස්වයංක්‍රීයව ඉවත් කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help warn</span> <button class="copy-btn btn-help" onclick="cp('.help warn', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.warn</span> <button class="copy-btn btn-on" onclick="cp('.warn', this)">Copy Warn</button></div>
+        <div class="cmd-item"><span class="cmd-text">.resetwarn</span> <button class="copy-btn btn-off" onclick="cp('.resetwarn', this)">Reset Warn</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👋 Welcome (Greetings)</h3>
+    <p>සමූහයට අලුතින් එක්වන සාමාජිකයින්ට ඔබ කැමති පණිවිඩයක්, පින්තූරයක් සහ සමූහයේ විස්තර සහිතව ස්වයංක්‍රීයව පිළිගැනීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help welcome</span> <button class="copy-btn btn-help" onclick="cp('.help welcome', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.welcome set [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.welcome set', this)">Set Welcome</button></div>
+        <div class="cmd-item"><span class="cmd-text">.welcome off</span> <button class="copy-btn btn-off" onclick="cp('.welcome off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+🤖 පුද්ගලික-උපදෙස් මධ්‍යස්ථානය
+
+පද්ධතියේ ඇති සියලුම පුද්ගලික මොඩියුල වල සාරාංශය පහතින් දැක්වේ.
+නියමිත මොඩියුලයක් හදාවිමට අවශ්‍ය නම්, පහතින් දැක්වෙන උදව් විධානය භාවිතා කරන්න.
+<h1>✦⋆✦════✪════✦⋆✦</h1>
+<h1>✦⋆✦════✪════✦⋆✦</h1>
+<h1>✦⋆✦════✪════✦⋆✦</h1>
+
+<div class="card">
+    <h3>📵 Anticall (Security)</h3>
+    <p>ලැබෙන ඇමතුම් ස්වයංක්‍රීයව විසන්ධි කර (Auto-reject) අදාළ පුද්ගලයාට ඔබ කාර්යබහුල බව දන්වන පණිවිඩයක් යැවීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help anticall</span> <button class="copy-btn btn-help" onclick="cp('.help anticall', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.anticall on</span> <button class="copy-btn btn-on" onclick="cp('.anticall on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.anticall off</span> <button class="copy-btn btn-off" onclick="cp('.anticall off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>✏️ Antiedit (Truth Keeper)</h3>
+    <p>සාමාජිකයින් පණිවිඩ සංස්කරණය කරන විට (Edit), ඒවායේ මුල් පණිවිඩය හඳුනාගෙන ඔබගේ Log Channel එක වෙත වාර්තා කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help antiedit</span> <button class="copy-btn btn-help" onclick="cp('.help antiedit', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antiedit on</span> <button class="copy-btn btn-on" onclick="cp('.antiedit on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antiedit off</span> <button class="copy-btn btn-off" onclick="cp('.antiedit off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>♻️ AntiStatus (Recovery)</h3>
+    <p>මිතුරන් විසින් දමන Status නිරීක්ෂණය කරන අතර, ඔවුන් යම් Status එකක් මකා දැමුවහොත් (Delete) එය ස්වයංක්‍රීයව ලබාගෙන සුරැකීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help antistatus</span> <button class="copy-btn btn-help" onclick="cp('.help antistatus', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antistatus on</span> <button class="copy-btn btn-on" onclick="cp('.antistatus on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antistatus off</span> <button class="copy-btn btn-off" onclick="cp('.antistatus off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📦 APK (Downloader)</h3>
+    <p>ඕනෑම Android App එකක් (APK) බොට් හරහා සෙවීම සහ එය සෘජුවම WhatsApp වෙත බාගත කර ගැනීම (Download) මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help apk</span> <button class="copy-btn btn-help" onclick="cp('.help apk', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.apk [නම]</span> <button class="copy-btn btn-on" onclick="cp('.apk', this)">Search APK</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎙️ AutoRecord (Ghost Recorder)</h3>
+    <p>බොට් විසින් පණිවිඩ වලට පිළිතුරු දීමේදී සැබෑ පුද්ගලයෙකු හඬ පණිවිඩයක් පටිගත කරනවාක් මෙන් (Recording...) ප්‍රදර්ශනය කර තාත්වික බවක් එක් කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autorecord</span> <button class="copy-btn btn-help" onclick="cp('.help autorecord', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autorecord on</span> <button class="copy-btn btn-on" onclick="cp('.autorecord on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autorecord off</span> <button class="copy-btn btn-off" onclick="cp('.autorecord off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>⌨️ AutoType (Ghost Writer)</h3>
+    <p>බොට් පණිවිඩ වලට පිළිතුරු දීමේදී සැබෑ පුද්ගලයෙකු පණිවිඩයක් ටයිප් කරනවාක් මෙන් (Typing...) ප්‍රදර්ශනය කර වඩාත් තාත්වික ස්වරූපයක් ලබා දෙයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autotype</span> <button class="copy-btn btn-help" onclick="cp('.help autotype', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autotype on</span> <button class="copy-btn btn-on" onclick="cp('.autotype on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autotype off</span> <button class="copy-btn btn-off" onclick="cp('.autotype off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💚 AutoView (Liker)</h3>
+    <p>ඔබේ මිතුරන් දමන Status updates ස්වයංක්‍රීයව නැරඹීම සහ ඒවාට Like (Reaction) ලබා දීම මගින් ඔබ නිරන්තරයෙන් ක්‍රියාශීලීව සිටින බව පෙන්වයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autoview</span> <button class="copy-btn btn-help" onclick="cp('.help autoview', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoview on</span> <button class="copy-btn btn-on" onclick="cp('.autoview on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoview off</span> <button class="copy-btn btn-off" onclick="cp('.autoview off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💾 Backup (Database)</h3>
+    <p>දත්ත මකා යාම වැළැක්වීම සඳහා බොට්ගේ දත්ත පද්ධතිය (Database) ආරක්ෂිතව බැකප් කිරීම සහ අවශ්‍ය විටෙක නැවත ලබා ගැනීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help backup</span> <button class="copy-btn btn-help" onclick="cp('.help backup', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.backup</span> <button class="copy-btn btn-on" onclick="cp('.backup', this)">Export DB</button></div>
+        <div class="cmd-item"><span class="cmd-text">.restore</span> <button class="copy-btn btn-off" onclick="cp('.restore', this)">Import DB</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📹 CC (Video Note)</h3>
+    <p>සාමාන්‍ය වීඩියෝ ගොනු WhatsApp හි රවුම් හැඩැති "Video Notes" බවට ක්ෂණිකව පරිවර්තනය කිරීමේ හැකියාව මෙමගින් ලැබේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help cc</span> <button class="copy-btn btn-help" onclick="cp('.help cc', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.cc</span> <button class="copy-btn btn-on" onclick="cp('.cc', this)">Convert to CC</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👥 Common (Scanner)</h3>
+    <p>සමූහ කිහිපයකම එකවර සාමාජිකත්වය දරන පොදු පුද්ගලයින් සොයා ගැනීම සඳහා සමූහ කිහිපයක් එකවර ස්කෑන් කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help common</span> <button class="copy-btn btn-help" onclick="cp('.help common', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.common [Group IDs]</span> <button class="copy-btn btn-on" onclick="cp('.common', this)">Scan Common</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎵 Convert (Media)</h3>
+    <p>වීඩියෝ වලින් MP3 වෙන් කර ගැනීම සහ ඕඩියෝ ගොනු ඔබට අවශ්‍ය ප්‍රමාණයට කපා වෙන් කර ගැනීම (Trim) මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help convert</span> <button class="copy-btn btn-help" onclick="cp('.help convert', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.mp3</span> <button class="copy-btn btn-on" onclick="cp('.mp3', this)">To MP3</button></div>
+        <div class="cmd-item"><span class="cmd-text">.trim [කාලය]</span> <button class="copy-btn btn-off" onclick="cp('.trim', this)">Trim Audio</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🗑️ Delete (Recovery)</h3>
+    <p>යමෙකු පණිවිඩයක් එවූ සැණින් එය මකා දැමුවහොත්, එම මකා දැමූ පණිවිඩය හෝ පින්තූරය නැවත ලබාගෙන Log Channel එක වෙත වාර්තා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help delete</span> <button class="copy-btn btn-help" onclick="cp('.help delete', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antidelete on</span> <button class="copy-btn btn-on" onclick="cp('.antidelete on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.antidelete off</span> <button class="copy-btn btn-off" onclick="cp('.antidelete off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📥 Dla (Downloader)</h3>
+    <p>TikTok, IG සහ අනෙකුත් සමාජ මාධ්‍ය වීඩියෝ බාගත කිරීම සහ ඔබට අවශ්‍ය Ringtone සෙවීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help dla</span> <button class="copy-btn btn-help" onclick="cp('.help dla', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.dla [Link]</span> <button class="copy-btn btn-on" onclick="cp('.dla', this)">Download</button></div>
+        <div class="cmd-item"><span class="cmd-text">.ringtone [නම]</span> <button class="copy-btn btn-off" onclick="cp('.ringtone', this)">Search RT</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🌐 Fetch (Request)</h3>
+    <p>ඕනෑම වෙබ් අඩවියක ඇති අභ්‍යන්තර දත්ත (HTML/JSON) සෘජුවම ලබා ගැනීමට මෙම පහසුකම භාවිතා කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help fetch</span> <button class="copy-btn btn-help" onclick="cp('.help fetch', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.fetch [URL]</span> <button class="copy-btn btn-on" onclick="cp('.fetch', this)">Fetch Data</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>⏩ Forward (Broadcast)</h3>
+    <p>තෝරාගත් සමූහ හෝ පුද්ගලයින් කිහිප දෙනෙකුට එකවර පණිවිඩයක් (Forward Label එක රහිතව) යැවීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help forward</span> <button class="copy-btn btn-help" onclick="cp('.help forward', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.forward [JID]</span> <button class="copy-btn btn-on" onclick="cp('.forward', this)">Send Broadcast</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🖼️ FullPP (No-Crop Avatar)</h3>
+    <p>බොට්ගේ ප්‍රොෆයිල් පින්තූරය (DP) කිසිදු කොටසක් කපා ඉවත් කිරීමකින් තොරව (No-Crop) සම්පූර්ණයෙන් ඇතුළත් කිරීමට මෙය භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help fullpp</span> <button class="copy-btn btn-help" onclick="cp('.help fullpp', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.fullpp</span> <button class="copy-btn btn-on" onclick="cp('.fullpp', this)">Set Full DP</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎤 FVN (Voice Note)</h3>
+    <p>සාමාන්‍ය ඕඩියෝ ගොනු WhatsApp හි එවෙලේම පටිගත කළ හඬ පණිවිඩ (Voice Notes) ලෙස පෙනෙන පරිදි පරිවර්තනය කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help fvn</span> <button class="copy-btn btn-help" onclick="cp('.help fvn', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.fvn</span> <button class="copy-btn btn-on" onclick="cp('.fvn', this)">Convert to VN</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🛡️ GPerm (Restrictor)</h3>
+    <p>විශේෂිත සමූහ වල බොට් විධානයන් ක්‍රියාත්මක කිරීම පාලනය කිරීමට සහ ඒවා Owner/Sudo හට පමණක් සීමා කිරීමට (Lock) මෙය භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help gperm</span> <button class="copy-btn btn-help" onclick="cp('.help gperm', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gperm lock</span> <button class="copy-btn btn-on" onclick="cp('.gperm lock', this)">Lock Group</button></div>
+        <div class="cmd-item"><span class="cmd-text">.gperm unlock</span> <button class="copy-btn btn-off" onclick="cp('.gperm unlock', this)">Unlock Group</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🩺 Health (System)</h3>
+    <p>බොට් ක්‍රියාත්මක වන සර්වර් එකේ RAM, CPU භාවිතය සහ ක්‍රියාකාරී කාලය (Uptime) ඇතුළු පද්ධති තොරතුරු මෙහිදී නිරීක්ෂණය කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help health</span> <button class="copy-btn btn-help" onclick="cp('.help health', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.health</span> <button class="copy-btn btn-on" onclick="cp('.health', this)">Check Status</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🖼️ Img (Search)</h3>
+    <p>අන්තර්ජාලය හරහා ඔබට අවශ්‍ය පින්තූර සොයා ඒවා සෘජුවම WhatsApp චැට් එක වෙත ලබා ගැනීමට මෙම පහසුකම උපකාරී වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help img</span> <button class="copy-btn btn-help" onclick="cp('.help img', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.img [නම]</span> <button class="copy-btn btn-on" onclick="cp('.img', this)">Search Image</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🆔 JID (ID Finder)</h3>
+    <p>සමූහයක හෝ සාමාජිකයෙකුගේ අද්විතීය හඳුනාගැනීමේ අංකය (JID) ක්ෂණිකව සොයා ගැනීමට මෙම මෙවලම භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help jid</span> <button class="copy-btn btn-help" onclick="cp('.help jid', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.jid</span> <button class="copy-btn btn-on" onclick="cp('.jid', this)">Get JID</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📒 JIDBook (Directory)</h3>
+    <p>දිගු JID අංක වෙනුවට මතක තබා ගැනීමට පහසු කෙටි නම් (Aliases) සකසා ගැනීම සහ ඒවා කළමනාකරණය කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help jidbook</span> <button class="copy-btn btn-help" onclick="cp('.help jidbook', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.jidbook add [නම:JID]</span> <button class="copy-btn btn-on" onclick="cp('.jidbook add', this)">Add Entry</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔌 Logout (Shutdown)</h3>
+    <p>බොට්ගේ සක්‍රීය සැසිය (Session) දුරස්ථව සිට අවසන් කිරීමට සහ බොට්ගේ ක්‍රියාකාරීත්වය නතර කිරීමට මෙය භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help logout</span> <button class="copy-btn btn-help" onclick="cp('.help logout', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.logout</span> <button class="copy-btn btn-off" onclick="cp('.logout', this)">Logout Bot</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎵 Lyrics (Music)</h3>
+    <p>ඔබ කැමති ඕනෑම ගීතයක පද මාලාව (Lyrics) අන්තර්ජාලය හරහා සොයා සෘජුවම චැට් එක වෙත ලබා ගැනීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help lyrics</span> <button class="copy-btn btn-help" onclick="cp('.help lyrics', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.lyrics [නම]</span> <button class="copy-btn btn-on" onclick="cp('.lyrics', this)">Search Lyrics</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎬 Movie (IMDb)</h3>
+    <p>චිත්‍රපට, ටෙලිකතා සහ ක්‍රීඩා පිළිබඳ සවිස්තරාත්මක තොරතුරු සහ IMDb අගයන් ක්ෂණිකව ලබා ගැනීමට මෙය භාවිතා කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help movie</span> <button class="copy-btn btn-help" onclick="cp('.help movie', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.movie [නම]</span> <button class="copy-btn btn-on" onclick="cp('.movie', this)">Search Movie</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💌 PFilter (PM Auto-Reply)</h3>
+    <p>ඔබගේ පුද්ගලික චැට් (PM) වෙත ලැබෙන පණිවිඩ සඳහා ප්‍රමුඛතා මට්ටම් අනුව ස්වයංක්‍රීය පිළිතුරු (Auto-reply) සකස් කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help pfilter</span> <button class="copy-btn btn-help" onclick="cp('.help pfilter', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.pfilter set [Reply]</span> <button class="copy-btn btn-on" onclick="cp('.pfilter set', this)">Set Filter</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🏓 Ping (Latency)</h3>
+    <p>බොට්ගේ ප්‍රතිචාර දැක්වීමේ වේගය සහ WhatsApp සමඟ ඇති සම්බන්ධතාවයේ ප්‍රමාදය (Latency) පරීක්ෂා කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help ping</span> <button class="copy-btn btn-help" onclick="cp('.help ping', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.ping</span> <button class="copy-btn btn-on" onclick="cp('.ping', this)">Check Ping</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎵 Play (Media)</h3>
+    <p>අන්තර්ජාලයෙන් ඕනෑම උසස් තත්ත්වයේ ඕඩියෝ හෝ වීඩියෝ ගොනුවක් සෙවීම සහ බාගත කිරීම (Download) මෙමගින් සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help play</span> <button class="copy-btn btn-help" onclick="cp('.help play', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.play [නම]</span> <button class="copy-btn btn-on" onclick="cp('.play', this)">Search & Play</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🖼️ Profile (Avatar)</h3>
+    <p>බොට්ගේ WhatsApp ප්‍රොෆයිල් පින්තූරය (DP) දුරස්ථව සිට යාවත්කාලීන කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help profile</span> <button class="copy-btn btn-help" onclick="cp('.help profile', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.profile</span> <button class="copy-btn btn-on" onclick="cp('.profile', this)">Update DP</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📖 Read (Blue Ticks)</h3>
+    <p>ලැබෙන සියලුම පණිවිඩ ඔබ ඒවා විවෘත කිරීමට පෙරම ස්වයංක්‍රීයව කියවූ බවට (Read) සලකුණු කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help read</span> <button class="copy-btn btn-help" onclick="cp('.help read', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.read on</span> <button class="copy-btn btn-on" onclick="cp('.read on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.read off</span> <button class="copy-btn btn-off" onclick="cp('.read off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔄 Reboot (Restart)</h3>
+    <p>බොට්ගේ මතකය අලුත් කිරීමට හෝ නව සැකසුම් ක්‍රියාත්මක කිරීමට දුරස්ථව සිට බොට්ව නැවත පණ ගැන්වීම (Restart) මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help reboot</span> <button class="copy-btn btn-help" onclick="cp('.help reboot', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.reboot</span> <button class="copy-btn btn-on" onclick="cp('.reboot', this)">Restart Bot</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📤 Send (Direct)</h3>
+    <p>දුරකථන අංක සුරැකීමකින් තොරව සෘජුවම පණිවිඩ යැවීමට සහ "Forwarded" ලේබලය රහිතව මීඩියා හුවමාරු කිරීමට මෙය භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help send</span> <button class="copy-btn btn-help" onclick="cp('.help send', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.send [අංකය]</span> <button class="copy-btn btn-on" onclick="cp('.send', this)">Send Direct</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🚀 Start (Notifier)</h3>
+    <p>බොට් සක්‍රීය වන (Online වන) සෑම අවස්ථාවකම ඒ පිළිබඳව ඔබට දැනුම්දීම් ලබා දෙන ආකාරය මෙහිදී සකස් කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help start</span> <button class="copy-btn btn-help" onclick="cp('.help start', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.start set</span> <button class="copy-btn btn-on" onclick="cp('.start set', this)">Set Notifier</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📥 Status (Saver)</h3>
+    <p>ඔබේ මිතුරන් දමන සියලුම Status පණිවිඩ ස්වයංක්‍රීයව බාගත කර (Download) ඒවා ක්ෂණිකව ඔබගේ පුද්ගලික චැට් එක වෙත එවනු ලබයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help status</span> <button class="copy-btn btn-help" onclick="cp('.help status', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.status on</span> <button class="copy-btn btn-on" onclick="cp('.status on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.status off</span> <button class="copy-btn btn-off" onclick="cp('.status off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎨 Sticker (Maker)</h3>
+    <p>පින්තූර සහ වීඩියෝ වලින් Sticker සෑදීම සහ ඕනෑම Sticker එකක් නැවත සාමාන්‍ය පින්තූරයක් හෝ වීඩියෝවක් බවට පත් කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help sticker</span> <button class="copy-btn btn-help" onclick="cp('.help sticker', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.sticker</span> <button class="copy-btn btn-on" onclick="cp('.sticker', this)">Make Sticker</button></div>
+        <div class="cmd-item"><span class="cmd-text">.photo</span> <button class="copy-btn btn-off" onclick="cp('.photo', this)">To Image</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>👑 Sudo (Access)</h3>
+    <p>බොට්ගේ විශේෂ විධානයන් භාවිතා කිරීමට අවසර ලත් පුද්ගලයින් (Sudo Users) එක් කිරීම සහ කළමනාකරණය කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help sudo</span> <button class="copy-btn btn-help" onclick="cp('.help sudo', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.sudo add [අංකය]</span> <button class="copy-btn btn-on" onclick="cp('.sudo add', this)">Add Sudo</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📲 Termux (Installer)</h3>
+    <p>ජංගම දුරකථනය හරහා බොට් හෝස්ට් කිරීමට හෝ පරීක්ෂා කිරීමට අවශ්‍ය Termux ඇප් එක බාගත කර ගැනීම (Download) මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help termux</span> <button class="copy-btn btn-help" onclick="cp('.help termux', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.termux</span> <button class="copy-btn btn-on" onclick="cp('.termux', this)">Get App</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🕰️ Time (World Clock)</h3>
+    <p>ලෝකයේ ඕනෑම නගරයක හෝ රටක පවතින වත්මන් වේලාව සහ දිනය ක්ෂණිකව පරීක්ෂා කිරීමට මෙම පහසුකම භාවිතා කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help time</span> <button class="copy-btn btn-help" onclick="cp('.help time', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.time [නගරය]</span> <button class="copy-btn btn-on" onclick="cp('.time', this)">Check Time</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🗣️ TTS (Text-to-Speech)</h3>
+    <p>ඕනෑම ලඛිත පණිවිඩයක් හඬ පණිවිඩයක් (Voice Note) බවට ක්ෂණිකව පරිවර්තනය කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help tts</span> <button class="copy-btn btn-help" onclick="cp('.help tts', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.tts [පණිවිඩය]</span> <button class="copy-btn btn-on" onclick="cp('.tts', this)">Text to Audio</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>❌ TTT (Tic-Tac-Toe)</h3>
+    <p>චැට් එක තුළ සිටින මිතුරෙකු සමඟ සාම්ප්‍රදායික "කටු සහ බිංදු" (X vs O) ක්‍රීඩාව කිරීමට මෙමගින් අවස්ථාව ලබා දෙයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help ttt</span> <button class="copy-btn btn-help" onclick="cp('.help ttt', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.ttt [user]</span> <button class="copy-btn btn-on" onclick="cp('.ttt', this)">Start Game</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔄 Update (System)</h3>
+    <p>බොට්ගේ නවතම සංස්කරණයන් සහ යාවත්කාලීනයන් (Updates) පරීක්ෂා කර ඒවා ක්ෂණිකව පද්ධතියට එක් කිරීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help update</span> <button class="copy-btn btn-help" onclick="cp('.help update', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.update</span> <button class="copy-btn btn-on" onclick="cp('.update', this)">Check Update</button></div>
+        <div class="cmd-item"><span class="cmd-text">.update now</span> <button class="copy-btn btn-off" onclick="cp('.update now', this)">Update Now</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔗 URL (Upload)</h3>
+    <p>ඕනෑම මීඩියා ගොනුවක් අන්තර්ජාලයට අප්ලෝඩ් කර ඒ සඳහා පොදු ලින්ක් එකක් (URL) ලබා ගැනීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help url</span> <button class="copy-btn btn-help" onclick="cp('.help url', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.url</span> <button class="copy-btn btn-on" onclick="cp('.url', this)">Generate Link</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🛠️ Var (Config)</h3>
+    <p>බොට්ගේ ප්‍රධාන සැකසුම්, Timezone සහ අනෙකුත් විචල්‍යයන් (Variables) ඕනෑම වේලාවක වෙනස් කිරීම මෙහිදී සිදු කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help var</span> <button class="copy-btn btn-help" onclick="cp('.help var', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.getvar [නම]</span> <button class="copy-btn btn-on" onclick="cp('.getvar', this)">Check Var</button></div>
+        <div class="cmd-item"><span class="cmd-text">.setvar [අගය]</span> <button class="copy-btn btn-off" onclick="cp('.setvar', this)">Update Var</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔓 ViewOnce (Unlocker)</h3>
+    <p>එක් වරක් පමණක් නැරඹිය හැකි (View Once) මීඩියා පණිවිඩ Unlock කර ඒවා සාමාන්‍ය පින්තූර හෝ වීඩියෝ ලෙස ලබා ගැනීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help viewonce</span> <button class="copy-btn btn-help" onclick="cp('.help viewonce', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">_ (Reply to Media)</span> <button class="copy-btn btn-on" onclick="cp('_', this)">Unlock Now</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🌤️ Weather (Forecast)</h3>
+    <p>ලෝකයේ ඕනෑම ස්ථානයක වත්මන් කාලගුණ තත්ත්වය සහ කාලගුණ අනාවැකි පිළිබඳ සජීවී වාර්තා ලබා ගැනීමට මෙය භාවිතා කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help weather</span> <button class="copy-btn btn-help" onclick="cp('.help weather', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.weather [නගරය]</span> <button class="copy-btn btn-on" onclick="cp('.weather', this)">Get Weather</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🧠 WordGame (Game)</h3>
+    <p>වචන දැනුම දියුණු කර ගැනීමට හැකි තරඟකාරී ක්‍රීඩාවකි. මෙහි සෑම වටයකදීම ක්‍රීඩාවේ අපහසුතාවය (Difficulty) වැඩි වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help wordgame</span> <button class="copy-btn btn-help" onclick="cp('.help wordgame', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.wordgame</span> <button class="copy-btn btn-on" onclick="cp('.wordgame', this)">Start Game</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💚 AutoLike (Status Reactor)</h3>
+    <p>මිතුරන් දමන Status පණිවිඩ ස්වයංක්‍රීයව නැරඹීම සහ ඒවාට Like ලබා දීම (Reaction) මගින් ඔබේ සුහදශීලී බව පවත්වා ගත හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autolike</span> <button class="copy-btn btn-help" onclick="cp('.help autolike', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autolike on</span> <button class="copy-btn btn-on" onclick="cp('.autolike on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autolike off</span> <button class="copy-btn btn-off" onclick="cp('.autolike off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💤 AFK (Away)</h3>
+    <p>ඔබ නිදා සිටින හෝ කාර්යබහුල අවස්ථාවලදී ලැබෙන පණිවිඩ සඳහා ස්වයංක්‍රීය පිළිතුරු (Auto-reply) සකස් කිරීමට මෙය භාවිතා කරයි.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help afk</span> <button class="copy-btn btn-help" onclick="cp('.help afk', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.afk [හේතුව]</span> <button class="copy-btn btn-on" onclick="cp('.afk', this)">Set AFK</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🟢 AlwaysOnline (Presence)</h3>
+    <p>ඔබ WhatsApp භාවිතා නොකරන අවස්ථාවලදී පවා ඔබ සැමවිටම Online සිටින බව පෙන්වීමට මෙම පහසුකම භාවිතා කළ හැක.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help online</span> <button class="copy-btn btn-help" onclick="cp('.help online', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.online on</span> <button class="copy-btn btn-on" onclick="cp('.online on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.online off</span> <button class="copy-btn btn-off" onclick="cp('.online off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💚 Auto View (Liker)</h3>
+    <p>ඔබගේ සම්බන්ධතා (Contacts) පළ කරන Status ස්වයංක්‍රීයව නැරඹීම සහ ඒවාට Emoji ප්‍රතික්‍රියා (Reactions) දැක්වීම මෙහිදී සිදු වේ.</p>
+    <div class="control-group">
+        <div class="cmd-item"><span class="cmd-text">.help autoview</span> <button class="copy-btn btn-help" onclick="cp('.help autoview', this)">Copy Help</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoview on</span> <button class="copy-btn btn-on" onclick="cp('.autoview on', this)">Copy ON</button></div>
+        <div class="cmd-item"><span class="cmd-text">.autoview off</span> <button class="copy-btn btn-off" onclick="cp('.autoview off', this)">Copy OFF</button></div>
+    </div>
+</div>
+
+</div>
+
+<div class="more-info">
+    <a href="../My%20Midiya/index.html" class="more-btn">🔍 වැඩි විස්තර බලන්න</a>
+</div>
+
+<div class="footer">
+    Developed for Lakmina Bot Users © 2026
+</div>
+
+<script>
+    function cp(text, btn) {
+        navigator.clipboard.writeText(text);
+        const originalText = btn.innerText;
+        btn.innerText = "Copied! ✅";
+        setTimeout(() => { btn.innerText = originalText; }, 1500);
+    }
+</script>
+
+</body>
+
+</html>

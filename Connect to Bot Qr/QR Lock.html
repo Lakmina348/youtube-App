@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | 🛡️Lakmina Deta🔑</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+            background: #020617;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .login-card {
+            background: #0f172a;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .login-card h2 { margin-bottom: 20px; color: #e2e8f0; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #1e293b;
+            background: #1e293b;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        
+        #error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2> 🛡️Qr_link🔑</h2>
+        <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">කරුනාකර ඇතුල් වීමට උත්සාහ නොකරන්න⚠️</p>
+        
+        <input type="password" id="passwordField" placeholder="Password එක මෙතන ගහන්න">
+        <button class="login-btn" onclick="checkPassword()">Log In</button>
+        
+        <p id="error-msg">😤.</p>
+    </div>
+
+    <script>
+        let attempts = 0; 
+
+        function checkPassword() {
+            const pw = document.getElementById('passwordField').value;
+            const error = document.getElementById('error-msg');
+            
+            if (pw === "2006.08.05 ") {
+                window.location.href = "W_QR.html"; 
+            } else {
+                attempts++; 
+                error.style.display = "block";
+                document.getElementById('passwordField').value = "";
+
+                if (attempts >= 2) {
+                    // කෙළින්ම මැසේජ් එක යැවීමට ලින්ක් එක සකස් කළා
+                    const phoneNumber = "94788637885";
+                    const message = encodeURIComponent("*Web_inbox🔎*\n%2AWeb_inbox�%2A%0A.");
+                    
+                    // wa.me ලින්ක් එක භාවිතා කර කෙළින්ම යොමු කිරීම
+                    window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
+                }
+            }
+        }
+
+        document.getElementById('passwordField').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+
+</body>
+</html>

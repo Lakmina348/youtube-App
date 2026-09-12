@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakmina King👑️ - AI Prompt Hub</title>
+
+    <link rel="icon" href="https://lh3.googleusercontent.com/d/1OEPiI4u1kUIHoFDdtuN5aMpsAY5ogSl_" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #0f141c;
+            color: #e6edf3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h2 {
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* 💻 පරිගණක තිර සඳහා එක පේළියක කාඩ්පත් 4ක් පෙන්වන පද්ධතිය */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .prompt-card {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .main-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 15px;
+            border: 1px solid #30363d;
+        }
+        .prompt-box {
+            background: #0d1117;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #238636;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 12px;
+            color: #c9d1d9;
+            max-height: 180px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .copy-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .copy-btn:hover {
+            background-color: #2ea043;
+        }
+
+        /* 📱 ජංගම දුරකථන තිර සඳහා විශේෂ සැකසුම: එක පේළියකට එක බැගින් පෙන්වීම */
+        @media (max-width: 900px) {
+            .prompt-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>AI prompt Hub👑️</h2>
+    
+    <div class="prompt-grid">
+
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1FyRzd4T5KWdkPdzq5ys2nafkrT4ir3Jw" alt="පින්තූරය 14">
+            <div class="prompt-box">🌼 Ultra-realistic portrait using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, smile, eyes, face shape, and identity with 100% facial accuracy. The generated woman must look exactly like the uploaded face.
+
+👩 Face & Identity:
+100% facial resemblance.
+Natural Sri Lankan young woman.
+Realistic skin texture.
+Natural makeup.
+No AI-looking face.
+
+😊 Expression:
+Soft genuine smile.
+Head resting gently on one hand.
+Relaxed and elegant pose.
+
+💇 Hairstyle:
+Natural black messy bun with a few loose front hair strands.
+Fresh yellow flowers tucked into the hair.
+NO earrings.
+
+👓 Accessories:
+Transparent eyeglasses.
+Simple wristwatch.
+Small bracelet.
+Light mehendi design on one hand.
+Tiny simple necklace.
+
+👗 Outfit:
+Elegant Sri Lankan-style bright yellow long frock with delicate floral embroidery.
+Modest neckline.
+Light chiffon sleeves.
+Graceful and classy Sri Lankan fashion.
+No Indian saree or lehenga.
+
+🦋 Background:
+Beautiful outdoor garden with warm fairy lights, hanging lanterns, blooming flowers, soft butterflies, dreamy bokeh lights, elegant white balcony, premium luxury atmosphere.
+
+☀️ Lighting:
+Warm golden-hour sunlight.
+Soft cinematic glow.
+Natural skin tones.
+
+📷 Camera:
+Samsung Galaxy S25 Ultra portrait mode.
+85mm lens.
+f/1.8 aperture.
+Ultra HDR.
+Shallow depth of field.
+Ultra-detailed.
+8K photorealistic quality.
+
+🎨 Color Grading:
+Warm golden cinematic colors.
+Soft pastel tones.
+Luxury editorial photography.
+Natural vibrant colors.
+
+🚫 Negative Prompt:
+Indian outfit, saree, lehenga, heavy jewelry, earrings, nose ring, oversized accessories, AI face, cartoon, anime, blurry, low quality, watermark, text, logo, extra fingers, distorted anatomy.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1FBlYoNlv9ygcw4aMDElkB23jfxmxoNyk" alt="පින්තූරය 14">
+            <div class="prompt-box">🌙 Ultra-realistic night portrait using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, eyes, face shape, facial proportions, and identity with 100% facial accuracy. The generated person must look exactly like the uploaded face.
+
+👨 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural young Sri Lankan male.
+Realistic skin texture.
+No AI-looking face.
+No facial modifications.
+
+💇 Hairstyle:
+Natural black middle-part hairstyle with soft volume.
+Detailed realistic hair strands.
+
+👕 Outfit:
+Oversized beige/tan crewneck t-shirt.
+Loose light grey wide-leg pants.
+Black smartwatch on the left wrist.
+Simple silver chain necklace with a small pendant.
+
+🧍 Pose:
+Standing casually at night.
+Both hands gently holding the bottom sides of the t-shirt.
+Head slightly tilted downward.
+Looking at the ground with a calm, relaxed expression.
+Natural body posture.
+
+🌃 Background:
+Modern outdoor apartment courtyard at night.
+Concrete bench in front.
+Small trees and bushes behind.
+Apartment buildings with a few warm lights visible through the windows.
+Clean pavement.
+Minimal urban environment.
+
+💡 Lighting:
+Soft cool-white street lights.
+Natural nighttime ambient lighting.
+Subtle cinematic shadows.
+Slight glow around the subject.
+
+📷 Camera:
+Samsung Galaxy S25 Ultra.
+1x lens.
+Portrait mode.
+Eye-level shot.
+Ultra HDR.
+f/1.8 aperture.
+Shallow depth of field.
+8K ultra-realistic quality.
+
+🎨 Color Grading:
+Neutral beige and grey tones.
+Soft cinematic contrast.
+Natural colors.
+Very realistic.
+Slight vintage/3D chromatic aberration effect around the edges.
+Premium editorial photography.
+
+✨ Mood:
+🌙 Calm
+📸 Cinematic
+🖤 Minimal
+✨ Premium
+🇱🇰 Natural Sri Lankan style
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, smiling, looking at camera, curly hair, sunglasses, hoodie, jacket, bright daylight, oversaturated colors, blurry, low quality, watermark, text, logo, extra fingers, distorted anatomy.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1fqs_O9qbGQOGqHBJvVoFhMUBPxbetBcb" alt="පින්තූරය 14">
+            <div class="prompt-box">🌸 Ultra-realistic mirror selfie using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, eyes, smile, face shape, facial proportions, and identity with 100% facial accuracy. The generated woman must look exactly like the uploaded face.
+
+👩 Face & Identity:
+100% facial resemblance.
+Natural young Sri Lankan woman.
+Soft glowing skin.
+Natural makeup.
+No AI-looking face.
+
+💇 Hairstyle:
+Long, soft black wavy hair falling naturally over the shoulders.
+A few loose front strands framing the face.
+
+👗 Outfit:
+Elegant black long-sleeve dress with a simple, classy design.
+Minimal jewelry.
+Black smartwatch on one wrist.
+
+💐 Pose:
+Standing in front of a large modern round mirror.
+Holding a beautiful pastel flower bouquet (pink roses, white roses, baby’s breath, and lavender flowers) in the left hand.
+Holding a orange iphone 17 pro max with the right hand, covering part of the face naturally while taking a mirror selfie.
+Relaxed feminine posture.
+
+🏨 Background:
+Luxury hotel lobby or elegant café restroom.
+Warm beige walls.
+Large round mirror with a thin black frame.
+Soft warm ambient lighting.
+Minimalist premium interior.
+
+💡 Lighting:
+Warm golden indoor lighting.
+Soft cinematic glow.
+Natural shadows.
+Premium luxury atmosphere.
+
+📷 Camera:
+Mirror selfie.
+iphone 17 pro max.
+Portrait mode.
+Ultra HDR.
+Shallow depth of field.
+8K ultra-realistic quality.
+
+🎨 Color Grading:
+Warm beige and brown tones.
+Luxury editorial photography.
+Natural skin tones.
+Soft dreamy aesthetic.
+Photorealistic.
+
+✨ Mood:
+🌸 Elegant
+🤍 Feminine
+📸 Luxury
+💐 Romantic
+✨ Ultra-realistic
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, low quality, blurry, watermark, text, logo, oversized jewelry, heavy makeup, unrealistic flowers, distorted anatomy, extra fingers.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1j_CLF3ED2j6moZTfBpGX-W_1tu6lrbYX" alt="පින්තූරය 15">
+            <div class="prompt-box">🌴 Ultra-realistic outdoor portrait using the uploaded face reference.
+
+🔒 Strict Identity Preservation:
+Preserve the exact facial identity of the uploaded person with 100% facial resemblance. Match the exact face shape, eyes, eyebrows, nose, lips, ears, jawline, beard (if present), skin tone, skin texture, and facial proportions. Preserve the exact hairstyle, natural hairline, hair length, hair volume, hair direction, and hair texture exactly as in the uploaded photo. Do not change the hairstyle or make it look like another person. The generated person must look exactly like the uploaded reference.
+
+👨 Subject:
+Young Sri Lankan man.
+Matte black sunglasses.
+Silver chain necklace.
+Black bracelet.
+
+👕 Outfit:
+Oversized faded maroon graphic T-shirt.
+Light blue ripped denim jeans.
+Casual streetwear style.
+
+📍 Pose:
+Leaning casually against a roadside metal guardrail.
+One hand inside the jeans pocket.
+The other hand resting naturally on the guardrail.
+Head slightly tilted downward while looking to the side with a calm, confident expression.
+
+🌊 Background:
+A beautiful Sri Lankan coastal road beside the Indian Ocean, similar to the Southern coastal highway. Rocky shoreline, blue sea, tropical greenery, curved road with metal guardrails, authentic Sri Lankan atmosphere.
+
+☀️ Lighting:
+Natural bright afternoon sunlight.
+Soft realistic shadows.
+Warm tropical daylight.
+
+📷 Camera:
+Eye-level portrait.
+85mm lens.
+Shallow depth of field.
+Ultra HDR.
+8K DSLR quality.
+
+🎨 Style:
+Hyper-realistic, photorealistic, premium editorial photography, ultra-detailed skin, realistic hair strands, cinematic color grading.
+
+🚫 Negative Prompt:
+Different face, different hairstyle, different hair texture, different hair length, AI face, plastic skin, cartoon, anime, CGI, blurry, low quality, watermark, text, logo, distorted anatomy, extra fingers, unrealistic lighting.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1dYz0xS2yaK2TdJQPVQ0cACnlWnR-cFbz" alt="පින්තූරය 16">
+            <div class="prompt-box">📸 Ultra-realistic outdoor portrait using the uploaded face reference.
+
+🔒 STRICT IDENTITY PRESERVATION (Highest Priority):
+The generated person must look EXACTLY like the uploaded person. Preserve 100% facial resemblance, exact face shape, eyes, eyebrows, nose, lips, jawline, ears, skin tone, beard (if any), hairstyle, hairline, hair texture, hair length, hair volume, and all facial proportions. Do NOT change the face or hairstyle. Do NOT beautify or replace the identity. Keep the uploaded person's exact appearance.
+
+👔 Outfit:
+Light pastel pink long-sleeve shirt with sleeves folded.
+White slim-fit trousers.
+Clean white sneakers.
+
+🪑 Pose:
+Sitting naturally on a weathered concrete block.
+Looking slightly to the left with a calm expression.
+Hands resting naturally.
+Relaxed posture.
+
+🌿 Background:
+Beautiful Sri Lankan countryside with lush green grass, paddy fields, tropical trees, and warm evening sunlight.
+Soft natural bokeh.
+
+☀️ Lighting:
+Golden hour sunlight.
+Soft natural shadows.
+Realistic skin tones.
+
+📷 Camera:
+85mm DSLR lens.
+Eye-level.
+Full-body portrait.
+Shallow depth of field.
+Ultra HDR.
+8K photorealistic quality.
+
+🚫 IMPORTANT:
+No text.
+No captions.
+No watermark.
+No logo.
+No UI elements.
+No comments.
+No icons.
+No buttons.
+No overlays.
+No phone interface.
+No borders.
+Clean image only.
+
+🎨 Style:
+Hyper-realistic, photorealistic, premium DSLR photography, ultra-detailed skin, realistic hair strands, cinematic color grading.
+
+🚫 Negative Prompt:
+text, watermark, logo, captions, comments, UI, interface, buttons, icons, different face, different hairstyle, AI face, cartoon, anime, CGI, plastic skin, blurry, low quality, extra fingers, extra limbs, distorted anatomy.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1XSeXgWMgNXfrPxzNzIwPK7H1g76qd4Q2" alt="පින්තූරය 14">
+            <div class="prompt-box">📱 Ultra-realistic front-camera selfie using the uploaded face reference.
+
+🔒 STRICT IDENTITY PRESERVATION:
+The uploaded person's face is the highest priority. Preserve the exact face, hairstyle, hairline, hair texture, skin tone, facial proportions, eyes, nose, lips, eyebrows, and overall identity. The generated person must look exactly like the uploaded face. Do not beautify or alter the person's appearance.
+
+👩 Subject:
+Young Sri Lankan woman.
+Natural beauty.
+Soft genuine smile.
+Minimal natural makeup.
+Simple white casual top.
+Small delicate necklace.
+
+🤳 Selfie Pose:
+A realistic front-camera selfie with one arm naturally extended while holding the phone. The phone is OUTSIDE the camera frame, so it is not visible. Only the natural selfie perspective should be visible. The angle, arm position, and composition must clearly show that she is taking a selfie, even though the phone itself is outside the frame.
+
+🌴 Background:
+Beautiful Sri Lankan tropical beach.
+Golden sand.
+Blue ocean.
+Palm trees.
+Warm sunset sky.
+Authentic Sri Lankan atmosphere.
+
+☀️ Lighting:
+Golden hour sunlight.
+Natural skin tones.
+Soft realistic shadows.
+
+📷 Camera:
+Front smartphone camera.
+Natural handheld selfie perspective.
+Slight wide-angle lens distortion.
+Upper body portrait.
+Shallow depth of field.
+Ultra HDR.
+8K.
+
+🎨 Style:
+Hyper-realistic.
+Photorealistic.
+Natural colors.
+Premium lifestyle photography.
+No AI-looking face.
+
+🚫 Negative Prompt:
+Phone visible, mirror selfie, phone covering face, text, watermark, logo, UI elements, different face, different hairstyle, cartoon, anime, CGI, plastic skin, blurry, low quality.
+            </div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1Nh0aZHjuMvL_UIpjOBF4yTztiLM3n_z8" alt="පින්තූරය 1">
+            <div class="prompt-box">🌸✨ Ultra-realistic cinematic portrait of a young woman using the uploaded face reference. Preserve the exact facial features, skin tone, eye shape, lips, hairstyle, facial proportions, and identity of the uploaded person with maximum facial accuracy and realism.
+
+👧 Face & Identity:
+The generated woman must look exactly like the uploaded face.
+Maintain the same eyes, nose, lips, jawline, skin texture, hairline, and natural smile.
+No face alteration.
+No AI-looking face.
+100% recognizable as the uploaded person.
+
+💗 Outfit:
+Elegant flowing pastel pink maxi dress.
+Off-shoulder design with soft puff sleeves.
+Multiple layered ruffles.
+Lightweight luxury fabric moving naturally in the breeze.
+Beautiful feminine princess-style dress.
+Matching earrings and minimal accessories.
+
+💇 Hair:
+Very long wavy black hair.
+High ponytail style.
+Hair flowing naturally with soft movement.
+Healthy, silky, detailed strands.
+
+🧍 Pose:
+Standing on a beautiful garden pathway.
+One hand gently holding a small cluster of white frangipani flowers 🌼.
+Other hand relaxed naturally beside the dress.
+Soft natural smile.
+Graceful and feminine pose.
+
+🌳 Environment:
+Beautiful tropical garden pathway in Sri Lanka.
+Large blooming frangipani trees overhead.
+Green plants and warm sunlight filtering through leaves.
+Peaceful luxury garden atmosphere.
+Natural flowers surrounding the pathway.
+
+🌫️ Background:
+Strong DSLR portrait blur (bokeh).
+Background softly blurred while keeping the subject perfectly sharp.
+Professional depth of field.
+Creamy cinematic background separation.
+
+☀️ Lighting:
+Golden morning sunlight.
+Soft warm natural glow.
+Beautiful highlights on the hair and dress.
+Natural skin tones.
+Bright, cheerful atmosphere.
+
+📸 Camera & Color Style:
+Shot on iPhone 16 Pro Max.
+Apple Smart HDR photography.
+Natural vibrant colors.
+Premium portrait photography.
+Ultra-realistic skin details.
+Crisp facial features.
+8K Ultra HD quality.
+Vertical 9:16 composition.
+
+🎭 Mood:
+Elegant 🌸
+Soft ✨
+Dreamy 💕
+Feminine 👑
+Luxury Garden Portrait 🌿
+
+🚫 Negative Prompt:
+cartoon, anime, low quality, blurry face, extra fingers, extra limbs, deformed body, unrealistic skin, watermark, logo, text, duplicate person, oversaturated colors, AI face, distorted dress, bad anatomy.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1RD5UbfESi4NhFA2QOUKLsvVQ-83sFlom" alt="පින්තූරය 2">
+            <div class="prompt-box">🖤Ultra-realistic cinematic portrait of a young man using the uploaded face reference. Preserve the exact facial features, hairstyle, skin tone, face shape, eyes, beard, expression, and identity of the uploaded person with maximum facial accuracy. The final person must look exactly like the uploaded face.
+
+🧑 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural masculine appearance.
+Sharp jawline, realistic skin texture, detailed eyes.
+Confident and serious expression.
+No AI-looking face.
+
+💚 Outfit:
+Luxury dark emerald green suit coat (blazer) with matching green trousers.
+Black premium shirt underneath.
+Elegant wristwatch.
+Clean professional gentleman look.
+Rich CEO-style appearance.
+
+🛋️ Pose:
+Sitting on a premium black leather sofa exactly like a luxury office lounge chair.
+Legs slightly apart.
+One arm resting on the sofa armrest.
+The other hand pointing directly toward the camera, similar to a powerful boss pose.
+Body relaxed but dominant.
+Confident and important-looking posture.
+
+🌫️ Environment:
+Dark cinematic studio atmosphere.
+Soft smoke and fog surrounding the subject from all sides.
+Visible smoke effects behind and around the sofa.
+Luxury executive lounge mood.
+Premium high-status businessman vibe.
+
+💡 Lighting:
+Dramatic studio lighting from above.
+Soft spotlight illuminating the face and suit.
+Light rays visible through the smoke.
+High contrast cinematic shadows.
+Professional movie-style lighting.
+
+📸 Camera:
+Low-angle portrait shot.
+85mm lens.
+Shallow depth of field.
+Subject perfectly sharp.
+Background softly blurred.
+Premium DSLR quality.
+
+🎨 Color Grading:
+iPhone 16 Pro Max HDR color science.
+Deep blacks.
+Rich emerald green suit.
+Cinematic teal and dark grey tones.
+Luxury movie-poster look.
+Ultra realistic colors.
+
+🔥 Mood:
+Powerful 💼
+Confident 👑
+Boss Energy 💚
+Executive Authority 🖤
+Luxury Gentleman ✨
+
+📱 Format:
+Vertical 9:16 portrait.
+Ultra detailed.
+8K HDR.
+Photorealistic.
+Professional magazine-quality portrait.
+
+🚫 Negative Prompt:
+cartoon, anime, low quality, blurry face, extra fingers, extra limbs, distorted hands, bad anatomy, watermark, logo, text, oversaturated colors, AI face, duplicate person, plastic skin, unrealistic lighting, gaming jersey, casual clothes.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/160shVLOzaZqtklxCEcWWQH5xNFm3D3SG" alt="පින්තූරය 3">
+            <div class="prompt-box">📸🌿 Ultra-realistic outdoor portrait of a young man using the uploaded face reference. Preserve the exact facial features, hairstyle, skin tone, beard, eyes, face shape, expression, and identity of the uploaded person with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👔 Outfit:
+Cream-white and light orange checkered casual shirt with sleeves folded to the elbows.
+Clean white slim-fit trousers.
+White Adidas-style sneakers with black stripes.
+Silver luxury wristwatch.
+
+🧍 Pose:
+Sitting naturally on a large tree trunk in a green park.
+One leg bent upward and the other relaxed.
+One hand resting on the raised knee and the other hand naturally placed near the leg.
+Body slightly angled toward the camera.
+Calm, confident, and attractive expression.
+Looking directly at the camera.
+
+🌳 Environment:
+Beautiful green outdoor park.
+Large trees and fresh grass all around.
+Natural Sri Lankan-style greenery.
+Peaceful nature atmosphere.
+Soft forest-like background.
+
+🌫️ Background:
+Strong DSLR portrait blur (bokeh effect).
+Background heavily blurred while keeping the subject perfectly sharp.
+Professional depth of field.
+
+☀️ Lighting:
+Soft natural daylight.
+Warm cinematic outdoor lighting.
+Balanced highlights and shadows.
+Natural skin tones.
+
+📸 Camera:
+Shot on iPhone 16 Pro Max Portrait Mode.
+85mm lens look.
+Ultra-realistic details.
+Crisp facial features.
+Professional photography.
+
+🎨 Color Style:
+Natural green tones.
+Premium HDR colors.
+Clean whites.
+Realistic skin texture.
+Luxury Instagram portrait look.
+
+✨ Mood:
+Handsome 😎
+Confident 💯
+Calm 🌿
+Stylish 👔
+Natural Outdoor Vibes 🍃
+
+📱 Vertical 9:16 composition, 8K Ultra HD, photorealistic, highly detailed.
+
+🚫 Negative Prompt:
+cartoon, anime, blurry face, low quality, extra fingers, extra limbs, distorted hands, bad anatomy, watermark, logo, text, duplicate person, oversaturated colors, AI face, plastic skin, unrealistic lighting.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1nVLyZ7waDpb12TYGyKWc2aM8N2PvZDY2" alt="පින්තූරය 4">
+            <div class="prompt-box">🦜❤️ Ultra-realistic wildlife portrait of a young woman using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, eyes, lips, facial proportions, and identity of the uploaded person with maximum facial accuracy. The generated woman must look exactly like the uploaded face.
+
+👧 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural smile.
+Beautiful expressive eyes.
+Realistic skin texture.
+No face modifications.
+No AI-looking features.
+
+👗 Outfit:
+Simple and elegant casual outfit.
+Light pastel-colored blouse or casual dress.
+Comfortable everyday clothing.
+Minimal accessories.
+Natural and attractive appearance.
+
+🦜 Main Subject:
+A beautiful bright red parrot calmly sitting on her hand.
+The parrot should look realistic, colorful, healthy, and detailed.
+The woman is gently interacting with the parrot while smiling naturally.
+
+🧍 Pose:
+Standing naturally as if visiting a zoo or bird park.
+One hand raised holding the red parrot.
+Relaxed posture.
+Looking slightly toward the bird with a happy expression.
+
+🌴 Environment:
+Beautiful tropical bird park or zoo environment.
+Green trees, plants, and natural pathways.
+Realistic outdoor wildlife setting.
+Professional zoo photography vibe.
+
+🌫️ Background:
+Strong DSLR background blur (bokeh effect).
+Background softly blurred while keeping the woman and parrot perfectly sharp.
+Professional portrait depth of field.
+
+☀️ Lighting:
+Soft natural daylight.
+Warm golden sunlight.
+Natural skin tones.
+Bright and cheerful atmosphere.
+
+📸 Camera:
+Shot on iPhone 16 Pro Max Portrait Mode.
+85mm lens look.
+Ultra-sharp details.
+Professional wildlife portrait photography.
+
+🎨 Color Style:
+Natural HDR colors.
+Rich green background.
+Vibrant red parrot.
+Clean realistic skin tones.
+Premium Instagram-quality portrait.
+
+✨ Mood:
+Cute 🦜
+Happy 😊
+Natural 🌿
+Elegant 🌸
+Zoo Adventure Vibes ❤️
+
+📱 Vertical 9:16 composition, 8K Ultra HD, photorealistic, highly detailed.
+
+🚫 Negative Prompt:
+cartoon, anime, blurry face, low quality, extra fingers, extra limbs, distorted hands, bad anatomy, watermark, logo, text, duplicate person, AI face, plastic skin, unrealistic bird, oversaturated colors.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1RxyLq2XQxklAa1dvyxXxrquyDvvUkkUv" alt="පින්තූරය 5">
+            <div class="prompt-box">💼🚙 Ultra-realistic luxury lifestyle portrait of a young man using the uploaded face reference. Preserve the exact facial features, hairstyle, beard, skin tone, eyes, face shape, and identity of the uploaded person with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👔 Outfit:
+Premium light grey formal shirt with sleeves neatly folded.
+Black tailored formal trousers.
+Black leather belt.
+Luxury black formal shoes.
+Elegant silver wristwatch.
+Clean businessman appearance.
+
+🧍 Pose:
+Standing confidently in front of a black Toyota Land Cruiser.
+One leg slightly crossed.
+Both hands casually inside trouser pockets.
+Relaxed but powerful posture.
+Looking directly at the camera with a calm and confident expression.
+
+🚙 Vehicle:
+Luxury black Toyota Land Cruiser V8.
+Clean glossy finish.
+Parked directly behind the subject.
+Premium executive lifestyle vibe.
+
+🏡 Environment:
+Modern luxury house exterior.
+Elegant architecture.
+Grey stone walls.
+Luxury residential driveway.
+High-end neighborhood atmosphere.
+
+🌫️ Background:
+Soft professional DSLR background blur.
+Subject and vehicle perfectly sharp.
+Premium portrait depth of field.
+Natural cinematic separation.
+
+☁️ Lighting:
+Soft cloudy daylight.
+Natural skin tones.
+Balanced highlights and shadows.
+Professional outdoor portrait lighting.
+
+📸 Camera:
+Shot on Samsung Galaxy S25 Ultra.
+Ultra HDR photography.
+85mm portrait lens look.
+Crisp details.
+Photorealistic quality.
+
+🎨 Color Grading:
+Luxury cinematic tones.
+Rich blacks and greys.
+Natural skin colors.
+Premium Instagram lifestyle aesthetic.
+Clean modern color palette.
+
+✨ Mood:
+Successful 💼
+Luxury 👑
+Confident 😎
+Businessman Lifestyle 🚙
+Executive Energy 🔥
+
+📱 Vertical 9:16 composition.
+8K Ultra HD.
+Photorealistic.
+Magazine-quality portrait.
+
+🚫 Negative Prompt:
+cartoon, anime, low quality, blurry face, extra fingers, extra limbs, distorted body, watermark, logo, text, duplicate person, AI face, plastic skin, unrealistic car, oversaturated colors.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1HHCuydwjw8f09uVm_pyTnc7l6FLN2926" alt="පින්තූරය 6">
+            <div class="prompt-box">🌅🌊 Ultra-realistic cinematic seaside portrait of a young woman using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, eyes, lips, facial proportions, expression, and identity of the uploaded person with maximum facial accuracy. The generated woman must look exactly like the uploaded face.
+
+👧 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural smile.
+Soft feminine expression.
+Realistic skin texture.
+Natural eyes and facial details.
+No AI-looking face.
+
+👗 Outfit:
+Elegant deep red long-sleeve crop top with slightly puffed sleeves.
+Flowing white long skirt decorated with small red ribbon details exactly matching the reference image.
+Natural fabric folds and realistic texture.
+
+💐 Props:
+Holding a bouquet of white calla lilies with green stems in both hands.
+Flowers clearly visible and realistic.
+
+🧍 Pose:
+Sitting naturally on a large seaside rock.
+Body position exactly like the reference image.
+Legs relaxed and slightly crossed.
+Holding the flower bouquet close to the chest.
+Gentle smile while looking toward the camera.
+
+🌊 Environment:
+Beautiful ocean shoreline during sunset.
+Large natural rocks around the subject.
+Calm sea water behind her.
+Golden sunset sky reflecting on the ocean surface.
+Peaceful romantic coastal atmosphere.
+
+☀️ Lighting:
+Soft golden-hour sunset lighting.
+Warm cinematic glow on the face.
+Natural highlights and shadows.
+Beautiful sunset reflections.
+
+🌫️ Background:
+Ocean and sky softly blurred while keeping the subject perfectly sharp.
+Professional DSLR depth of field.
+Premium portrait photography look.
+
+📸 Camera:
+Shot on Samsung Galaxy S25 Ultra Portrait Mode.
+85mm lens look.
+Ultra HDR.
+Photorealistic details.
+Professional outdoor portrait quality.
+
+🎨 Color Style:
+Warm sunset orange and golden tones.
+Natural ocean blue colors.
+Rich red outfit tones.
+Premium cinematic color grading.
+Luxury Instagram portrait aesthetic.
+
+✨ Mood:
+Romantic ❤️
+Elegant 🌹
+Peaceful 🌊
+Feminine ✨
+Golden Sunset Vibes 🌅
+
+📱 Vertical 9:16 composition.
+8K Ultra HD.
+Photorealistic.
+Highly detailed.
+Professional magazine-quality portrait.
+
+🚫 Negative Prompt:
+cartoon, anime, blurry face, low quality, extra fingers, extra limbs, distorted body, watermark, logo, text, duplicate person, AI face, plastic skin, unrealistic flowers, oversaturated colors.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/14tVTgbnpSjG6cqVbcpXU6OxQ18FEXjAD" alt="පින්තූරය 7">
+            <div class="prompt-box">🖤📸 Ultra-realistic cinematic portrait of a young man using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, beard, eyes, face shape, facial proportions, expression, and identity of the uploaded person with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👨 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural masculine appearance.
+Sharp jawline.
+Realistic skin texture.
+No AI-looking face.
+No facial modifications.
+
+🕶️ Accessories:
+Keep the exact same black sunglasses style as shown in the reference image.
+Same size, same shape, same position on the face.
+Do not change or replace the sunglasses.
+
+👔 Outfit:
+Exactly the same black linen shirt as the reference image.
+Top buttons slightly open.
+Sleeves folded to the forearms.
+Natural fabric texture and folds.
+Do not change the shirt style, color, or fit.
+
+💇 Hair:
+Keep the exact same hairstyle from the reference image.
+Medium-length wavy black hair.
+Same volume, texture, and styling.
+Do not modify the hairstyle.
+
+🧍 Pose:
+Standing naturally while leaning against a modern white railing.
+Body slightly turned to one side.
+Head turned away from the camera exactly like the reference.
+Looking sideways with a calm and confident expression.
+Hands relaxed naturally.
+
+🏢 Environment:
+Modern luxury building exterior.
+White walls and large glass windows.
+Clean minimalist architecture.
+Premium urban lifestyle atmosphere.
+
+🌫️ Background:
+Soft DSLR portrait blur (bokeh effect).
+Background smoothly blurred.
+Subject perfectly sharp and detailed.
+Professional depth of field.
+
+☀️ Lighting:
+Soft natural daylight.
+Clean highlights and shadows.
+Natural skin tones.
+Premium fashion photography lighting.
+
+📸 Camera:
+Shot on Samsung Galaxy S25 Ultra Portrait Mode.
+85mm lens look.
+Ultra HDR.
+Photorealistic details.
+Fashion magazine quality.
+
+🎨 Color Style:
+Natural luxury tones.
+Deep black shirt.
+Clean white architectural background.
+Premium cinematic color grading.
+Elegant and sophisticated look.
+
+✨ Mood:
+Stylish 😎
+Confident 🔥
+Luxury 🖤
+Modern Gentleman 👔
+Fashion Portrait 📸
+
+📱 Vertical 9:16 composition.
+8K Ultra HD.
+Photorealistic.
+Highly detailed.
+
+🚫 Negative Prompt:
+cartoon, anime, blurry face, low quality, extra fingers, extra limbs, distorted hands, bad anatomy, watermark, logo, text, duplicate person, AI face, plastic skin, changed hairstyle, different sunglasses, different shirt, unrealistic lighting.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1SeFZaaYGSaYr_zkhczq2GScSIf19swas" alt="පින්තූරය 8">
+            <div class="prompt-box">🤳☕ Ultra-realistic café mirror-selfie style portrait of a young woman using the uploaded face reference. Preserve the exact facial features, skin tone, eyes, face shape, facial proportions, hairstyle, expression, and identity of the uploaded person with maximum facial accuracy. The generated woman must look exactly like the uploaded face.
+
+👩 Appearance:
+Natural Sri Lankan young woman.
+Soft genuine smile.
+Natural beauty.
+Realistic skin texture.
+No AI-looking face.
+
+🧢 Outfit:
+Light pink baseball cap.
+Cream-colored striped knit top with black horizontal lines.
+Smart watch on the wrist.
+Casual stylish look.
+
+📱 Pose:
+Holding a smartphone in one hand and taking a natural selfie.
+The phone is clearly visible in the frame.
+Looking at the phone screen while taking the photo.
+Natural candid selfie pose.
+Relaxed and friendly expression.
+
+☕ Environment:
+Modern cozy coffee shop.
+Warm café atmosphere.
+Coffee-themed decorations.
+Comfortable indoor setting.
+
+📸 Composition:
+The image should look exactly like a real selfie captured by the subject herself.
+Natural hand position.
+Realistic selfie perspective.
+Face and upper body clearly visible.
+Shallow depth of field.
+
+💡 Lighting:
+Warm indoor café lighting.
+Soft natural skin tones.
+Professional portrait lighting.
+
+📱 Camera Quality:
+Samsung S25 Ultra selfie quality.
+Ultra HDR.
+Sharp facial details.
+Professional smartphone photography look.
+
+🎨 Color Grading:
+Warm coffee tones.
+Soft beige background.
+Natural realistic colors.
+Premium Instagram-style portrait.
+
+✨ Mood:
+Cozy ☕
+Cute 🌸
+Natural 😊
+Friendly ✨
+Photorealistic 📸
+
+🚫 Negative Prompt:
+text, watermark, logo, blurry face, extra fingers, distorted hands, bad anatomy, cartoon, anime, plastic skin, low quality, unrealistic phone, mirror distortion.
+
+--ar 9:16
+--8K
+--ultra realistic
+--photorealistic</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/12lp3ckgqnzZTdACZpxd5AnnjBKDUq1Zx" alt="පින්තූරය 9">
+            <div class="prompt-box">🌹📸 Ultra-realistic cinematic portrait of a young Sri Lankan woman using the uploaded face reference. Preserve the exact facial features, skin tone, eyes, nose, lips, hairstyle, face shape, facial proportions, expression, and identity with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👩 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural Sri Lankan appearance.
+Realistic skin texture.
+No AI-looking face.
+No facial modifications.
+
+💇 Hair:
+Long black hair styled into two neat braids exactly like the reference.
+Soft loose front strands framing the face.
+Natural hair texture and shine.
+
+👗 Outfit:
+Elegant white midi dress with large red floral prints exactly like the reference.
+Short puff sleeves.
+Fitted waist with a flowing skirt.
+Delicate layered gold necklace and small pearl earrings.
+
+😊 Pose & Expression:
+Leaning naturally against a textured wall.
+Body turned slightly sideways.
+Head gently turned toward the camera.
+Soft eye contact with a calm, gentle smile.
+
+🌅 Background:
+Outdoor evening setting during golden hour.
+Soft blurred cityscape or rooftop view.
+Creamy bokeh background.
+Minimal distractions.
+
+☀️ Lighting:
+Warm sunset light.
+Soft cinematic lighting.
+Natural highlights on the face.
+No harsh shadows.
+
+📸 Camera:
+Samsung Galaxy S25 Ultra portrait mode.
+85mm lens look.
+Ultra HDR.
+f/1.8 aperture.
+Shallow depth of field.
+Ultra-sharp focus on the face.
+Professional portrait photography.
+
+🎨 Color Grading:
+Warm cinematic colors.
+Natural skin tones.
+Premium flagship smartphone look.
+Ultra-realistic.
+Photorealistic.
+High dynamic range.
+
+✨ Mood:
+Elegant 🌹
+Soft 🤍
+Graceful ✨
+Natural 🌿
+Luxury portrait 📸
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, plastic skin, beauty filter, unrealistic face, extra limbs, blurry, low quality, watermark, logo, text, oversaturated colors, distorted facial features, duplicate body parts.
+
+--ar 9:16
+--8K
+--ultra realistic
+--photorealistic</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1o6DV1M1HZfskvM7LcQDtpJYDJSXhKXqZ" alt="පින්තූරය 10">
+            <div class="prompt-box">🖤📸 Ultra-realistic cinematic studio portrait of the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, facial proportions, beard (if present), and identity with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+😎 Male subject wearing matte black sunglasses and a premium black textured sweater. Natural messy hairstyle with highly detailed hair strands and realistic volume. Soft, confident expression while looking slightly to the side (not directly at the camera).
+
+🔥 Dark luxury aesthetic with deep black shadows, intense glowing red rim lighting wrapping around the hair, shoulders, and outline of the body. Dramatic red gradient background smoothly fading into deep black. Moody low-key cinematic lighting with subtle atmospheric haze.
+
+📷 Premium editorial fashion photography, studio-quality lighting, ultra-detailed skin texture, symmetrical composition, shallow depth of field, creamy background blur, razor-sharp facial details, realistic reflections on the sunglasses, flagship camera quality, HDR, 8K, photorealistic, luxury magazine cover look.
+
+✨ Cinematic • Luxury • Editorial • Hyper-realistic • Premium Studio Portrait
+
+🚫 Negative Prompt: cartoon, anime, CGI, AI face, plastic skin, blurry, low quality, oversaturated colors, extra limbs, distorted face, watermark, logo, text, artifacts.
+
+--ar 1:1
+--8K
+--ultra realistic
+--photorealistic</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1eN_ACx8_bl0HePVK-BZyz8sA6XUIurg8" alt="පින්තූරය 11">
+            <div class="prompt-box">🌅🤍 Ultra-realistic cinematic golden-hour portrait of a young Sri Lankan woman using the uploaded face reference. Preserve the exact facial features, skin tone, eyes, nose, lips, face shape, hairstyle, expression, and identity with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👩 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural Sri Lankan beauty.
+Realistic skin texture with visible pores.
+No AI-looking face.
+No facial modifications.
+
+💇 Hairstyle:
+Very long, silky, straight black hair tied into a high ponytail with a burgundy ribbon, exactly like the reference. A few soft front hair strands naturally fall across the forehead and cheeks. Natural hair shine and realistic hair texture.
+
+👗 Outfit:
+Elegant maroon/burgundy dress exactly matching the reference. Square neckline, short puff sleeves, fitted waist with a flowing skirt. Simple gold necklace with a tiny pendant and small stud earrings.
+
+😊 Pose:
+Standing naturally beside a wall. Body turned slightly sideways while the face is gently turned toward the camera. Relaxed shoulders, calm posture, soft neutral expression, direct eye contact.
+
+☀️ Lighting:
+Warm golden-hour sunlight hitting one side of the face exactly like the reference, creating beautiful natural highlights and soft shadows across the face and dress. Authentic sunset glow with realistic light falloff.
+
+🏡 Background:
+Simple house exterior or doorway softly blurred. Minimal distractions. Creamy natural bokeh.
+
+📸 Camera:
+Samsung Galaxy S25 Ultra portrait mode.
+85mm portrait lens.
+Ultra HDR.
+f/1.8 aperture.
+Shallow depth of field.
+Professional portrait photography.
+Ultra-sharp focus on the eyes and face.
+
+🎨 Color Grading:
+Warm golden cinematic tones.
+Natural skin colors.
+Premium flagship smartphone look.
+Photorealistic.
+Ultra-realistic.
+8K quality.
+
+✨ Mood:
+Elegant 🌅
+Soft 🤍
+Natural 🌿
+Luxury Portrait 📸
+Golden Hour ✨
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, AI face, plastic skin, beauty filter, blurry, low quality, extra limbs, distorted anatomy, unrealistic lighting, oversaturated colors, watermark, logo, text, artifacts.
+
+--ar 9:16
+--style raw
+--quality 2
+--8K
+--ultra realistic
+--photorealistic</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1JiZaXdeASPKnwhVbPqLgEjZLRV1nziA_" alt="පින්තූරය 12">
+            <div class="prompt-box">💙📸 Ultra-realistic low-angle selfie of a young Sri Lankan couple using the uploaded face references. Preserve the exact facial features, skin tone, hairstyle, facial proportions, expressions, and identity of both uploaded faces with maximum facial accuracy. Both people must look exactly like the uploaded faces.
+
+👩👨 Composition:
+Both standing very close together, shoulder-to-shoulder, naturally leaning slightly toward the camera as if taking a selfie together. Low-angle perspective from below, making the blue sky fill most of the background. Both looking naturally into the camera with soft smiles.
+
+👨 Male Outfit:
+Dark green oversized t-shirt.
+White baseball cap.
+Natural casual style.
+
+👩 Female Outfit:
+White sleeveless tank top.
+Dark olive/green baseball cap.
+Long natural black hair flowing gently in the breeze.
+
+🫶 Pose:
+Both making a small finger-heart gesture with one hand.
+Relaxed, happy, natural couple pose.
+Standing close together with realistic body proportions and natural interaction.
+
+☀️ Lighting:
+Bright natural daytime sunlight.
+Soft highlights on the faces.
+Clean outdoor lighting.
+Natural shadows.
+
+☁️ Background:
+Beautiful blue sky filled with fluffy white clouds.
+No buildings or distractions.
+Fresh outdoor atmosphere.
+
+📷 Camera:
+Samsung Galaxy S25 Ultra front camera.
+Ultra HDR.
+26mm wide-angle selfie lens.
+Natural perspective.
+Ultra-sharp details.
+Professional smartphone selfie quality.
+
+🎨 Color Grading:
+Natural vibrant colors.
+Premium flagship smartphone look.
+Realistic skin tones.
+Photorealistic.
+8K quality.
+
+✨ Mood:
+💙 Happy
+🌤️ Fresh
+📸 Casual
+🤍 Natural
+🌿 Realistic
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, AI face, plastic skin, blurry, low quality, extra limbs, distorted anatomy, unrealistic lighting, watermark, logo, text, duplicate people.
+
+--ar 9:16
+--style raw
+--8K
+--ultra realistic
+--photorealistic</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/1y6XyyAL8oULx7LQmrz9w6a321FMSnXKY" alt="පින්තූරය 13">
+            <div class="prompt-box">🖤📸 Ultra-realistic cinematic portrait using the uploaded face reference. Preserve the exact facial features, skin tone, hairstyle, beard, eyes, face shape, facial proportions, and identity with maximum facial accuracy. The generated person must look exactly like the uploaded face.
+
+👨 Face & Identity:
+100% facial resemblance to the uploaded face.
+Natural masculine Sri Lankan appearance.
+Realistic skin texture with visible pores.
+No AI-looking face.
+No facial modifications.
+
+😎 Hairstyle & Accessories:
+Short natural black side-swept hairstyle with realistic hair strands.
+Matte black rectangular sunglasses exactly like the reference image.
+Silver chain necklace with a small pendant.
+Small silver hoop earring.
+Black crossbody sling bag worn diagonally across the chest.
+
+👕 Outfit:
+Olive green oversized crewneck sweatshirt.
+Black slim-fit pants.
+White sneakers.
+
+🧍 Pose:
+Standing naturally on old moss-covered stone steps.
+Both hands inside sweatshirt pockets.
+Body leaning slightly forward.
+Head slightly tilted upward while looking toward the camera from above.
+Relaxed confident facial expression.
+Natural masculine posture.
+
+🌿 Background:
+Ancient moss-covered stone staircase in a lush green forest.
+Dense tropical trees and greenery.
+Natural cinematic environment.
+Soft background blur.
+
+☀️ Lighting:
+Soft natural daylight filtering through trees.
+Balanced highlights and shadows.
+Premium flagship smartphone HDR.
+
+📷 Camera:
+High-angle top-down shot.
+Samsung Galaxy S25 Ultra portrait mode.
+85mm portrait lens.
+f/1.8 aperture.
+Ultra HDR.
+Shallow depth of field.
+Ultra-sharp focus on the face.
+
+🎨 Color Grading:
+Dark green cinematic tones.
+Natural realistic skin colors.
+Premium editorial photography.
+Hyper-realistic.
+Photorealistic.
+8K quality.
+
+✨ Mood:
+😎 Stylish
+🌿 Nature
+📸 Cinematic
+🖤 Premium
+🔥 Ultra-realistic
+
+🚫 Negative Prompt:
+cartoon, anime, CGI, plastic skin, curly hair, long hair, hairstyle changes, wrong sunglasses, smiling too much, blurry, low quality, oversaturated colors, unrealistic lighting, watermark, logo, text, extra limbs, distorted anatomy.</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/19JVbPmb5mX-6cplkBwFlzzwPm4X7Romq" alt="පින්තූරය 14">
+            <div class="prompt-box">✨🦜❤️</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/19JVbPmb5mX-6cplkBwFlzzwPm4X7Romq" alt="පින්තූරය 14">
+            <div class="prompt-box">✨🦜❤️</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/19JVbPmb5mX-6cplkBwFlzzwPm4X7Romq" alt="පින්තූරය 14">
+            <div class="prompt-box">✨🦜❤️</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/19JVbPmb5mX-6cplkBwFlzzwPm4X7Romq" alt="පින්තූරය 15">
+            <div class="prompt-box">✨🦜❤️</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+        <div class="prompt-card">
+            <img class="main-img" src="https://lh3.googleusercontent.com/d/19JVbPmb5mX-6cplkBwFlzzwPm4X7Romq" alt="පින්තූරය 16">
+            <div class="prompt-box">✨🦜❤️</div>
+            <button class="copy-btn" onclick="copyCardPrompt(this)">පිටපත් කරන්න</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function copyCardPrompt(buttonElement) {
+    var promptBox = buttonElement.parentElement.querySelector('.prompt-box');
+    var copyText = promptBox.innerText;
+
+    // නවීන බ්‍රවුසර සහ Online Secure (HTTPS) තත්ත්වයන් සඳහා
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(copyText).then(function() {
+            alert("Prompt එක සාර්ථකව පිටපත් කරගන්නා ලදී!");
+        }).catch(function() {
+            fallbackCopyText(copyText);
+        });
+    } else {
+        // දුරකථනයේ Offline (file://) හෝ Telegram ඇතුළත බ්‍රවුසර සඳහා Fallback ක්‍රමය
+        fallbackCopyText(copyText);
+    }
+}
+
+function fallbackCopyText(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // තිරය මත නොපෙනෙන ලෙස සකස් කිරීම
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    
+    textArea.focus();
+    textArea.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            alert("Prompt එක සාර්ථකව පිටපත් කරගන්නා ලදී!");
+        } else {
+            alert("Copy කිරීමට නොහැකි විය. කරුණාකර manually copy කරගන්න.");
+        }
+    } catch (err) {
+        alert("Copy කිරීමට නොහැකි විය. කරුණාකර manually copy කරගන්න.");
+    }
+
+    document.body.removeChild(textArea);
+}
+</script>
+
+</body>
+</html>

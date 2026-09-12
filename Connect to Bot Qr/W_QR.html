@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Links | Lakmina Cinema</title>
+    <style>
+        /* මූලික සැකසුම් */
+        body {
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+        }
+
+        /* පොදු බටන් ස්ටයිල් එක */
+        .vid-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 1. YouTube Button (රතු පැහැය) */
+        .btn-yt {
+            background: linear-gradient(90deg, #ff0000, #cc0000);
+            border-bottom: 4px solid #8b0000;
+        }
+        .btn-yt:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* 2 & 3. Drive Buttons (නිල් සහ කොළ මිශ්‍ර) */
+        .btn-drive {
+            background: linear-gradient(90deg, #1d4ed8, #059669);
+            border-bottom: 4px solid #064e3b;
+        }
+        .btn-drive:hover {
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* බටන් එක ඇතුළේ ඇති අයිකන සඳහා */
+        .vid-btn span {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Click කළ විට සිදුවන වෙනස */
+        .vid-btn:active {
+            transform: translateY(2px);
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="button-container">
+        
+        <a href="https://i-tct.com/pair/qr" class="vid-btn btn-yt">
+            <span>▶</span>  QR Code , Phone Code
+        </a>
+
+    </div>
+
+</body>
+</html>

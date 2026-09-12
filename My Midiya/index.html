@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakmina | Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: #000; /* කළු පසුබිම */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* මැද විශාල "L" ලාංඡනය */
+        .main-logo {
+            font-size: 120px;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 2px #e50914; /* රතු බෝඩර් එක */
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .main-logo::before {
+            content: "L";
+            position: absolute;
+            inset: 0;
+            color: #e50914;
+            animation: fill-water 3s ease-in-out forwards;
+            overflow: hidden;
+            height: 0%;
+        }
+
+        @keyframes fill-water {
+            0% { height: 0%; }
+            100% { height: 100%; text-shadow: 0 0 40px #e50914; }
+        }
+
+        /* Loading Bar එක */
+        .progress-box {
+            width: 250px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #e50914, #ff4d4d);
+            box-shadow: 0 0 15px #e50914;
+            animation: load-bar 3s linear forwards;
+        }
+
+        @keyframes load-bar {
+            to { width: 100%; }
+        }
+
+        .status-text {
+            margin-top: 15px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #888;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        .fade-out { animation: fadeOut 0.5s forwards; }
+        @keyframes fadeOut { to { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="main-logo">L</div>
+    
+    <div id="percent-text" style="font-size: 20px; font-weight: bold; color: #e50914;">0%</div>
+
+    <div class="progress-box">
+        <div class="progress-fill"></div>
+    </div>
+
+    <div class="status-text">Connecting to Digital Hub...</div>
+
+    <script>
+        const targetUrl = "වැඩි විස්තර.html"; 
+        const percentDisplay = document.getElementById('percent-text');
+        
+        let count = 0;
+        // තත්පර 3 කින් 100% වීමට (3000ms / 100 = 30ms)
+        const interval = setInterval(() => {
+            count++;
+            percentDisplay.innerText = count + "%";
+            if (count >= 100) clearInterval(interval);
+        }, 30);
+
+        // හරියටම තත්පර 3 කින් Redirect වේ
+        setTimeout(() => {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        }, 3300);
+    </script>
+
+</body>
+</html>

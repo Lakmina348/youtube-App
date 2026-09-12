@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Code Generator</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .admin-card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+        h2 { text-align: center; color: #38bdf8; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 5px; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+        .btn-container { display: flex; gap: 10px; margin-top: 20px; }
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .copy-btn { background: #0ea5e9; color: white; }
+        .copy-btn:hover { background: #0284c7; scale: 1.02; }
+        .success-msg {
+            display: none;
+            text-align: center;
+            color: #22c55e;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2>🚀 App Code Generator</h2>
+    
+    <div class="input-group">
+        <label>App Title</label>
+        <input type="text" id="title" value="">
+    </div>
+
+    <div class="input-group">
+        <label>Rating (e.g., 1.2 ★)</label>
+        <input type="text" id="rate" value=" ★">
+    </div>
+
+    <div class="input-group">
+        <label>Size (e.g., 917 KB)</label>
+        <input type="text" id="size" value="">
+    </div>
+
+    <div class="input-group">
+        <label>Downloads</label>
+        <input type="text" id="downloads" value="">
+    </div>
+
+    <div class="input-group">
+        <label>Google Drive File ID</label>
+        <input type="text" id="fileID" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="input-group">
+        <label>App Icon URL</label>
+        <input type="text" id="icon" value="">
+    </div>
+
+    <div class="btn-container">
+        <button class="copy-btn" onclick="generateAndCopy()">Generate & Copy Full HTML</button>
+    </div>
+    <div id="msg" class="success-msg">✅ Code Copied to Clipboard!</div>
+</div>
+
+<script>
+function generateAndCopy() {
+    const title = document.getElementById('title').value;
+    const rate = document.getElementById('rate').value;
+    const size = document.getElementById('size').value;
+    const downloads = document.getElementById('downloads').value;
+    const fileID = document.getElementById('fileID').value;
+    const icon = document.getElementById('icon').value;
+
+    const fullCode = `<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Store - \${title}</title>
+    <style>
+        body { background: #111; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .icon { width: 100px; height: 100px; border-radius: 20px; margin-top: 50px; }
+        .install-btn { background: #00a173; color: black; border: none; padding: 15px 50px; border-radius: 25px; font-weight: bold; margin-top: 30px; cursor: pointer; }
+        .stats { display: flex; justify-content: space-around; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <img src="\${icon}" class="icon">
+    <h1>\${title}</h1>
+    <div class="stats">
+        <div><b>\${rate}</b><br>Rating</div>
+        <div><b>\${size}</b><br>Size</div>
+        <div><b>\${downloads}</b><br>Downloads</div>
+    </div>
+    <button class="install-btn" onclick="downloadApp()">Install</button>
+
+    <script>
+        function downloadApp() {
+            window.location.href = "https://drive.google.com/uc?export=download&id=\${fileID}";
+        }
+    <\/script>
+</body>
+</html>`;
+
+    // Copy to clipboard
+    const el = document.createElement('textarea');
+    el.value = fullCode;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    // Show success
+    const msg = document.getElementById('msg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 3000);
+}
+</script>
+
+</body>
+</html>

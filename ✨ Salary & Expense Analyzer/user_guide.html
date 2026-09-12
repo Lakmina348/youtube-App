@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary & Expense Analyzer Pro - භාවිත කිරීමේ උපදෙස් මාලාව</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+Sinhala:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: rgba(21, 30, 48, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-cyan: #38bdf8;
+            --primary-indigo: #818cf8;
+            --accent-green: #34d399;
+            --accent-red: #f87171;
+            --accent-amber: #fbbf24;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+
+        /* Dust Canvas Background */
+        #dustCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header / Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            border-radius: 24px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--primary-cyan);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-cyan) 50%, var(--primary-indigo) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Section Cards */
+        .doc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .doc-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.1);
+        }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-cyan), var(--primary-indigo));
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* List Styling */
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .feature-bullet {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            margin-top: 9px;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px var(--primary-cyan);
+        }
+
+        .feature-text {
+            font-size: 0.98rem;
+            color: #e2e8f0;
+        }
+
+        .feature-text strong {
+            color: var(--primary-cyan);
+            font-weight: 700;
+        }
+
+        /* Highlight Pills / Badges */
+        .highlight-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin: 0 3px;
+        }
+
+        .tag-red { background: rgba(248, 113, 113, 0.15); color: var(--accent-red); border: 1px solid rgba(248, 113, 113, 0.3); }
+        .tag-green { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.3); }
+        .tag-blue { background: rgba(56, 189, 248, 0.15); color: var(--primary-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 40px;
+        }
+
+        /* -------------------------------------------------------------
+           DUST / PARTICLE ASSEMBLE SCROLL ANIMATION
+        ------------------------------------------------------------- */
+        .dust-reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95) rotateX(10deg);
+            filter: blur(12px) contrast(150%);
+            letter-spacing: 3px;
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        letter-spacing 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter, letter-spacing;
+        }
+
+        .dust-reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+            filter: blur(0px) contrast(100%);
+            letter-spacing: normal;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.8rem; }
+            .doc-card { padding: 20px; }
+            .feature-item { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particle Dust Canvas Background -->
+    <canvas id="dustCanvas"></canvas>
+
+    <div class="container">
+        
+        <!-- Hero Header -->
+        <header class="hero dust-reveal">
+            <div class="badge">📖 User Guide & Manual</div>
+            <h1>Salary & Expense Analyzer Pro</h1>
+            <p>ඔබගේ මාසික මුල්‍ය කළමනාකරණ යෙදවුම ඉතා පහසුවෙන් සහ නිවැරදිව භාවිත කරන ආකාරය මෙතැනින් දැනගන්න.</p>
+        </header>
+
+        <!-- Section 1 -->
+        <section class="doc-card dust-reveal">
+            <div class="card-header">
+                <div class="card-icon">📝</div>
+                <h2 class="card-title">1. මූලික තොරතුරු ඇතුළත් කිරීම (Basic Info)</h2>
+            </div>
+            <ul class="feature-list">
+                <li class="feature-item dust-reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-bullet"></div>
+                    <div class="feature-text"><strong>ඔබේ නම (Name):</strong> ඔබේ නම මෙහි ඇතුළත් කරන්න. (වාර්තාව පිළියෙල කරන්නේ කවුරුන්දැයි සටහන් වේ)</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-bullet"></div>
+                    <div class="feature-text"><strong>දිනය (Date):</strong> අදාළ දිනය තෝරන්න (ස්වයංක්‍රීයව අද දිනය සටහන් වේ).</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.3s;">
+                    <div class="feature-bullet"></div>
+                    <div class="feature-text"><strong>ලැබුණු පඩිය / ආදායම (Total Income):</strong> ඔබේ මාසික ලැබුණු මුළු ආදායම LKR වලින් ඇතුළත් කරන්න.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="doc-card dust-reveal">
+            <div class="card-header">
+                <div class="card-icon" style="color: #fbbf24;">🛍️</div>
+                <h2 class="card-title">2. වියදම් එකතු කිරීම (Adding Expenses)</h2>
+            </div>
+            <ul class="feature-list">
+                <li class="feature-item dust-reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-bullet" style="background: #fbbf24; box-shadow: 0 0 10px #fbbf24;"></div>
+                    <div class="feature-text"><strong>+ එකතු කරන්න / + තවත් වියදම් එක් කරන්න:</strong> මෙම බටන් එක ක්ලික් කර අවශ්‍ය තරම් නව වියදම් පේළි එකතු කරගන්න.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-bullet" style="background: #fbbf24; box-shadow: 0 0 10px #fbbf24;"></div>
+                    <div class="feature-text"><strong>වියදම් වර්ගය:</strong> වියදමේ නම ඇතුළත් කරන්න (උදා: කෑම, බිල්පත්, ණය, ගමන් වියදම්).</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.3s;">
+                    <div class="feature-bullet" style="background: #fbbf24; box-shadow: 0 0 10px #fbbf24;"></div>
+                    <div class="feature-text"><strong>මුදල (LKR):</strong> එම අදාළ වියදමට වැය වූ මුදල සටහන් කරන්න.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.4s;">
+                    <div class="feature-bullet" style="background: #fbbf24; box-shadow: 0 0 10px #fbbf24;"></div>
+                    <div class="feature-text"><strong>🗑️ (Delete):</strong> වැරදීමකින් එකතු වූ හෝ අනවශ්‍ය වියදමක් මකා දැමීමට මෙම බටන් එක ක්ලික් කරන්න.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="doc-card dust-reveal">
+            <div class="card-header">
+                <div class="card-icon" style="color: #34d399;">📊</div>
+                <h2 class="card-title">3. මුල්‍ය විශ්ලේෂණය බලන්න (Summary & Status)</h2>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;" class="dust-reveal">ඔබ දත්ත ඇතුළත් කරන විටම ස්වයංක්‍රීයව (Real-time) පහත දත්ත ගණනය වේ:</p>
+            <ul class="feature-list">
+                <li class="feature-item dust-reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-bullet" style="background: #34d399; box-shadow: 0 0 10px #34d399;"></div>
+                    <div class="feature-text"><strong>මුළු ආදායම (Total Income):</strong> ඔබ ඇතුළත් කළ සමස්ත ආදායම.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-bullet" style="background: #34d399; box-shadow: 0 0 10px #34d399;"></div>
+                    <div class="feature-text"><strong>මුළු වියදම (Total Expense):</strong> සියලුම වියදම් එකතුව.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.3s;">
+                    <div class="feature-bullet" style="background: #34d399; box-shadow: 0 0 10px #34d399;"></div>
+                    <div class="feature-text"><strong>ඉතිරි මුදල (Net Balance):</strong> ආදායමෙන් වියදම් අඩු වූ පසු ඉතිරිවන මුළු මුදල.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.4s;">
+                    <div class="feature-bullet" style="background: #34d399; box-shadow: 0 0 10px #34d399;"></div>
+                    <div class="feature-text"><strong>Status Message:</strong> ඔබේ වියදම ආදායමට වඩා වැඩි නම් <span class="highlight-tag tag-red">රතු පාටින්</span> අවවාද පණිවිඩයක්ද, ඉතිරිය ආරක්ෂිත නම් <span class="highlight-tag tag-green">කොළ පාටින්</span> පණිවිඩයක්ද පෙන්වයි.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 4 -->
+        <section class="doc-card dust-reveal">
+            <div class="card-header">
+                <div class="card-icon" style="color: #818cf8;">🔘</div>
+                <h2 class="card-title">4. ප්‍රධාන බොත්තම් (Action Buttons)</h2>
+            </div>
+            <ul class="feature-list">
+                <li class="feature-item dust-reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-bullet" style="background: #818cf8; box-shadow: 0 0 10px #818cf8;"></div>
+                    <div class="feature-text"><strong>💾 Save:</strong> ඔබ ඇතුළත් කළ දත්ත ඔබේ Browser එකේ සුරක්ෂිතව තබා ගනී (පසුව නැවත ඇතුළු වන විට එම දත්ත එලෙසම පවතී).</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-bullet" style="background: #818cf8; box-shadow: 0 0 10px #818cf8;"></div>
+                    <div class="feature-text"><strong>📄 Download PDF:</strong> සම්පූර්ණ මුල්‍ය වාර්තාවම අලංකාර PDF ගොනුවක් ලෙස ඔබේ Phone එකට හෝ Computer එකට Download කරගැනීමට.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.3s;">
+                    <div class="feature-bullet" style="background: #818cf8; box-shadow: 0 0 10px #818cf8;"></div>
+                    <div class="feature-text"><strong>🔄 Reset All:</strong> ඇතුළත් කළ සියලු දත්ත මකා දමා මුල සිට නැවත ආරම්භ කිරීමට.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Section 5 -->
+        <section class="doc-card dust-reveal">
+            <div class="card-header">
+                <div class="card-icon" style="color: #f43f5e;">📱</div>
+                <h2 class="card-title">5. Sidebar & අතිරේක විශේෂාංග (Additional Features)</h2>
+            </div>
+            <ul class="feature-list">
+                <li class="feature-item dust-reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-bullet" style="background: #f43f5e; box-shadow: 0 0 10px #f43f5e;"></div>
+                    <div class="feature-text"><strong>🧮 Calculator:</strong> අවශ්‍ය ගණනය කිරීම් සිදුකිරීම සඳහා ළඟම ඇති Smart Calculator එක වෙත ක්ෂණිකව යාමට.</div>
+                </li>
+                <li class="feature-item dust-reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-bullet" style="background: #f43f5e; box-shadow: 0 0 10px #f43f5e;"></div>
+                    <div class="feature-text"><strong>☰ Menu Toggle:</strong> ස්මාර්ට්ෆෝන් මගින් භාවිතා කරන්නේ නම් පසෙකින් ඇති Menu එක Open / Close කර ගැනීමට.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer dust-reveal">
+            <p>✨ Salary & Expense Analyzer Pro — Smart Financial Management Tool</p>
+            <p style="margin-top: 6px; font-weight: 600; color: var(--primary-cyan);">Designed with ❤️ for You</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript for Dynamic Dust Particles & Scroll Assembly Animation -->
+    <script>
+        // 1. Scroll Dust Assembly Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: trigger extra particle dust burst when element appears
+                        triggerDustBurst();
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.dust-reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+
+        // 2. Interactive Dust Particle Canvas Effect
+        const canvas = document.getElementById('dustCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+        let scrollSpeed = 0;
+        let lastScrollY = window.scrollY;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class DustParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? '#38bdf8' : '#818cf8';
+            }
+
+            update(scrollVelocity) {
+                this.x += this.speedX;
+                this.y += this.speedY - scrollVelocity * 0.2;
+
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                    this.reset();
+                    if (scrollVelocity > 0) this.y = height + 10;
+                    if (scrollVelocity < 0) this.y = -10;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // Initialize 70 particles
+        for (let i = 0; i < 70; i++) {
+            particles.push(new DustParticle());
+        }
+
+        function triggerDustBurst() {
+            particles.forEach(p => {
+                p.speedY -= (Math.random() * 1.5 + 0.5);
+            });
+        }
+
+        // Track Scroll for particle velocity
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            scrollSpeed = currentScrollY - lastScrollY;
+            lastScrollY = currentScrollY;
+        });
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Friction to reduce scrollSpeed effect smoothly
+            scrollSpeed *= 0.92;
+
+            particles.forEach(p => {
+                p.update(scrollSpeed);
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

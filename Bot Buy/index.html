@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LM Hub | Premium Access</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: #0f172a; /* ඔබේ පිටුවේ පසුබිම් වර්ණයට (background) සමානයි */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* පාවෙන කාසි ඇනිමේෂන් එක */
+        .coin-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+        }
+
+        .main-icon {
+            font-size: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            filter: drop-shadow(0 0 20px #38bdf8);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        /* පහළ ලෝඩින් තීරුව */
+        .loader-container {
+            width: 250px;
+            text-align: center;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 20px;
+            margin-top: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #10b981);
+            box-shadow: 0 0 15px #38bdf8;
+            animation: load-bar 3s linear forwards;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Animations */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @keyframes load-bar {
+            to { width: 100%; }
+        }
+
+        .exit-anim {
+            animation: exit-anim 0.6s forwards;
+        }
+        @keyframes exit-anim { to { opacity: 0; transform: translateY(20px); } }
+    </style>
+</head>
+<body>
+
+    <div class="coin-wrapper">
+        <div class="pulse-ring"></div>
+        <div class="main-icon">💎</div>
+    </div>
+
+    <div class="loader-container" id="loader">
+        <div class="info-text" id="status">Loading Shop...</div>
+        <div class="bar-bg">
+            <div class="bar-fill"></div>
+        </div>
+    </div>
+
+    <script>
+        // යොමු විය යුතු ලොකේෂන් එක (ඔබේ බෝට් පැකේජ පිටුව)
+        const targetPage = "Buy.html"; 
+
+        // තත්පර 1.5 කින් මැසේජ් එක වෙනස් වේ
+        setTimeout(() => {
+            document.getElementById('status').innerText = "Fetching Best Offers...";
+            document.getElementById('status').style.color = "#10b981"; // කොළ පැහැය
+        }, 1500);
+
+        // තත්පර 3 කින් ස්වයංක්‍රීයව Redirect වේ
+        setTimeout(() => {
+            document.getElementById('loader').parentElement.classList.add('exit-anim');
+            setTimeout(() => {
+                window.location.href = targetPage;
+            }, 600);
+        }, 3000);
+    </script>
+
+</body>
+</html>

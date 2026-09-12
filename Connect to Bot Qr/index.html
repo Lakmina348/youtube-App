@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner | Lakmina</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: #020617; /* W_Qr.html හි පසුබිමට සමානයි */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* QR Frame එක */
+        .qr-frame {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+
+        /* කොන් හතරේ සලකුණු */
+        .corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 4px solid #2563eb;
+        }
+        .top-left { top: -5px; left: -5px; border-right: none; border-bottom: none; border-radius: 8px 0 0 0; }
+        .top-right { top: -5px; right: -5px; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
+        .bottom-left { bottom: -5px; left: -5px; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
+        .bottom-right { bottom: -5px; right: -5px; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
+
+        /* මැද ඇති QR අයිකනය */
+        .qr-icon {
+            font-size: 80px;
+            filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.5));
+        }
+
+        /* ස්කෑන් වන රේඛාව */
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: #2563eb;
+            box-shadow: 0 0 15px #2563eb, 0 0 30px #2563eb;
+            top: 0;
+            animation: scan-qr 2s ease-in-out infinite;
+        }
+
+        .status-box {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        @keyframes scan-qr {
+            0%, 100% { top: 5%; opacity: 0.2; }
+            50% { top: 90%; opacity: 1; }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        @keyframes fadeOut { to { opacity: 0; transform: scale(0.9); } }
+    </style>
+</head>
+<body>
+
+    <div class="qr-frame" id="loader">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+        
+        <div class="scanner-line"></div>
+        <div class="qr-icon">📱</div>
+    </div>
+
+    <div class="status-box">
+        <div class="loading-text" id="status">Scanning QR Code...</div>
+    </div>
+
+    <script>
+        // යොමු විය යුතු ලොකේෂන් එක
+        const targetUrl = "QR Lock.html"; 
+
+        // තත්පර 1.5 කදී පණිවිඩය වෙනස් වේ
+        setTimeout(() => {
+            document.getElementById('status').innerText = "Pairing Device...";
+            document.getElementById('status').style.color = "#2563eb";
+        }, 1500);
+
+        // තත්පර 3 කින් Redirect වේ
+        setTimeout(() => {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        }, 3000);
+    </script>
+
+</body>
+</html>

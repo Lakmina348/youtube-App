@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream - LAKMINA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Cinematic Background Glow */
+        .bg-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a0505 0%, #000 70%);
+            z-index: -1;
+        }
+
+        /* Logo Animation */
+        .movie-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-l {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff 0%, #e50914 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.6));
+            animation: zoomIn 1.5s ease-out forwards;
+        }
+
+        .site-name {
+            font-size: 14px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #888;
+            margin-top: -10px;
+            opacity: 0;
+            animation: fadeIn 1s 0.8s forwards;
+        }
+
+        /* Loading Animation */
+        .loader-wrapper {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .loader-bar {
+            width: 0%;
+            height: 100%;
+            background: #e50914; /* Netflix Red */
+            box-shadow: 0 0 15px #e50914;
+            animation: load 2.5s cubic-bezier(0.1, 0.5, 0.5, 1) forwards;
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+            font-weight: 300;
+        }
+
+        /* Keyframes */
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; filter: blur(10px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .fade-exit {
+            animation: fadeExit 0.6s forwards;
+        }
+
+        @keyframes fadeExit {
+            to { opacity: 0; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="movie-logo">
+        <div class="logo-l">L</div>
+        <div class="site-name">LAKMINA MOVIES</div>
+    </div>
+
+    <div class="loader-wrapper">
+        <div class="loader-bar"></div>
+    </div>
+
+    <div class="loading-text" id="status">🎬 Preparing your cinema experience...</div>
+
+    <script>
+        // Redirect විය යුතු ලොකේෂන් එක
+        const targetUrl = "home1.html"; 
+        
+        // තත්පර 3 කින් Redirect වීම ආරම්භ වේ
+        setTimeout(() => {
+            document.body.classList.add('fade-exit');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 600);
+        }, 3000);
+
+        // තත්පර 1.5 කින් ටෙක්ස්ට් එක වෙනස් වේ
+        setTimeout(() => {
+            document.getElementById('status').innerText = "🍿 Grab your popcorn...";
+        }, 1500);
+    </script>
+
+</body>
+</html>

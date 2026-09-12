@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakmina | Terminal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+
+        body {
+            background-color: #0b141a; /* ඔබේ කමාන්ඩ් සෙන්ටර් එකේ තේමාවට ගැළපෙන පසුබිම */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #25D366; /* WhatsApp Green/Hacker Green */
+            overflow: hidden;
+        }
+
+        .terminal-box {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(30, 42, 48, 0.5); /* Glassmorphism effect */
+            border-radius: 10px;
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.1);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 10px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background-color: #ff4b2b; }
+        .yellow { background-color: #ffcc00; }
+        .green { background-color: #25D366; }
+
+        .terminal-body {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .cmd { color: white; margin-right: 5px; }
+        .path { color: #34b7f1; margin-right: 5px; }
+
+        /* Typing & Fade-out animations */
+        .typing {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #25D366;
+            width: 0;
+            animation: typing 1s steps(20, end) forwards, blink-caret 0.5s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #25D366 } }
+
+        .line { opacity: 0; animation: fadeIn 0.1s forwards; }
+        .line-1 { animation-delay: 0.1s; }
+        .line-2 { animation-delay: 1s; opacity: 1; } /* Typing line */
+        .line-3 { animation-delay: 2.2s; }
+        .line-4 { animation-delay: 2.8s; color: white; font-weight: bold; }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        .fade-exit { animation: fadeExit 0.8s forwards; }
+        @keyframes fadeExit { to { opacity: 0; transform: scale(1.05); } }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-box" id="terminal">
+        <div class="terminal-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+        </div>
+        <div class="terminal-body">
+            <div class="line line-1"><span class="cmd">system@lakmina:</span><span class="path">~/$</span> boot --premium</div>
+            <div class="line line-2"><span class="cmd">system@lakmina:</span><span class="path">~/$</span> <span class="typing">Connecting to Hub...</span></div>
+            <div class="line line-3">>> Validating security token... <span style="color: #25D366;">[OK]</span></div>
+            <div class="line line-4">>> Access granted. Opening Dashboard.</div>
+        </div>
+    </div>
+
+    <script>
+        // යොමු විය යුතු පිටුව (Location)
+        const targetLocation = "Bot.html";
+
+        // තත්පර 3 කට පසු පිටුව මාරු කිරීම
+        setTimeout(() => {
+            document.getElementById('terminal').parentElement.classList.add('fade-exit');
+            
+            setTimeout(() => {
+                window.location.href = targetLocation;
+            }, 800); // Fade-out ඇනිමේෂන් එක සඳහා කාලය
+        }, 3000); // මුළු කාලය (තත්පර 3)
+    </script>
+
+</body>
+</html>

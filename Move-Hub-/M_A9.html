@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Video Player</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --accent: #4f8ef7; --bg: #0d0d0d; --card: #161622;
+    --border: rgba(255,255,255,0.09); --text: #e8e8f0; --muted: #666;
+  }
+  html, body { width: 100%; background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
+
+  /* VIDEO */
+  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #000; overflow: hidden; }
+  .video-wrap iframe { position: absolute; left: 0; width: 100%; border: none; top: -42px; height: calc(100% + 84px); }
+  .video-wrap::before, .video-wrap::after { content: ''; position: absolute; left: 0; right: 0; background: #000; z-index: 2; pointer-events: none; }
+  .video-wrap::before { top: 0; height: 42px; }
+  .video-wrap::after  { bottom: 0; height: 42px; }
+  .end-overlay { position: absolute; inset: 0; background: #000; z-index: 5; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 14px; }
+  .end-overlay.show { display: flex; }
+  .end-overlay p { color: rgba(255,255,255,0.75); font-size: 15px; }
+  .replay-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; color: #fff; font-size: 14px; font-family: inherit; padding: 11px 24px; cursor: pointer; }
+
+  /* TIPS */
+  .tips-bar { background: #111118; border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .tip-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: #888; line-height: 1.5; }
+  .tip-row .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .tip-row span b { color: #bbb; font-weight: 600; }
+
+  .below-video { padding: 14px 14px 48px; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+  /* CARDS */
+  .msg-card, .comment-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 18px 16px; }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .card-header .emoji { font-size: 20px; }
+  .card-header h3 { font-size: 14px; font-weight: 700; color: var(--text); }
+
+  /* MESSAGE FORM */
+  .progress-dots { display: flex; gap: 5px; margin-bottom: 14px; }
+  .dot { height: 3px; border-radius: 99px; background: rgba(255,255,255,0.1); flex: 1; transition: background 0.35s; }
+  .dot.done { background: var(--accent); }
+  .step { display: none; flex-direction: column; gap: 10px; animation: fadeUp 0.22s ease; }
+  .step.active { display: flex; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .step-label { font-size: 13px; color: var(--muted); }
+  input[type="text"], input[type="tel"], textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-family: inherit; font-size: 14px; padding: 12px 14px; outline: none; transition: border-color 0.2s; resize: none; -webkit-appearance: none; }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  input::placeholder, textarea::placeholder { color: #444; }
+  .btn-row { display: flex; gap: 8px; }
+  .btn-next { flex: 1; background: var(--accent); border: none; border-radius: 11px; color: #fff; font-size: 14px; font-weight: 700; padding: 13px; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s, transform 0.15s; }
+  .btn-next:active { transform: scale(0.97); opacity: 0.88; }
+  .btn-skip { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 11px; color: var(--muted); font-size: 13px; padding: 13px 16px; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+  .spinner { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .success-msg { text-align: center; padding: 12px 0 6px; }
+  .success-msg .s-icon { font-size: 42px; margin-bottom: 10px; }
+  .success-msg p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .success-msg strong { color: var(--text); }
+
+  /* COMMENT BOX */
+  .comment-form { display: flex; flex-direction: column; gap: 10px; }
+  .btn-comment { background: var(--accent); border: none; border-radius: 11px; color: #fff; font-size: 14px; font-weight: 700; padding: 12px; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: opacity 0.2s, transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .btn-comment:active { transform: scale(0.97); opacity: 0.88; }
+  .btn-comment:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .comment-divider { height: 1px; background: var(--border); margin: 6px 0; display: none; }
+  .comment-divider.show { display: block; }
+  .comment-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .comment-item { display: flex; gap: 10px; animation: fadeUp 0.2s ease; position: relative; }
+
+  /* Long-press progress ring on avatar */
+  .comment-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    flex-shrink: 0; margin-top: 1px;
+    cursor: pointer;
+    position: relative;
+    user-select: none; -webkit-user-select: none;
+  }
+  /* SVG ring overlay on avatar */
+  .avatar-ring {
+    position: absolute; inset: -3px;
+    width: calc(100% + 6px); height: calc(100% + 6px);
+    pointer-events: none; transform: rotate(-90deg);
+    opacity: 0; transition: opacity 0.1s;
+  }
+  .avatar-ring circle {
+    fill: none; stroke: #e53935;
+    stroke-width: 2.5;
+    stroke-dasharray: 113; /* 2π×18 */
+    stroke-dashoffset: 113;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0s linear;
+  }
+  .comment-avatar.pressing .avatar-ring { opacity: 1; }
+  .comment-avatar.pressing .avatar-ring circle { transition: stroke-dashoffset 1.5s linear; stroke-dashoffset: 0; }
+
+  .comment-body { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .comment-meta { display: flex; align-items: center; gap: 8px; }
+  .comment-name { font-size: 12.5px; font-weight: 700; color: var(--text); }
+  .comment-time { font-size: 11px; color: var(--muted); }
+  .comment-text { font-size: 13.5px; color: #ccc; line-height: 1.6; word-break: break-word; }
+  .comment-like { display: flex; align-items: center; gap: 4px; background: none; border: none; color: var(--muted); font-size: 12px; font-family: inherit; cursor: pointer; padding: 2px 0; margin-top: 2px; width: fit-content; transition: color 0.15s; }
+  .comment-like:hover { color: #fff; }
+  .comment-like.liked { color: #4f8ef7; }
+
+  /* Delete confirm popup */
+  .delete-popup {
+    position: absolute;
+    top: 0; right: 0;
+    background: #1e1e2e;
+    border: 1px solid rgba(229,57,53,0.35);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: none;
+    flex-direction: column;
+    gap: 7px;
+    z-index: 10;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    min-width: 160px;
+    animation: fadeUp 0.15s ease;
+  }
+  .delete-popup.show { display: flex; }
+  .delete-popup p { font-size: 12px; color: var(--muted); }
+  .delete-popup-btns { display: flex; gap: 6px; }
+  .btn-del-confirm {
+    flex: 1; background: #e53935; border: none; border-radius: 8px;
+    color: #fff; font-size: 12px; font-weight: 700; padding: 8px;
+    cursor: pointer; font-family: inherit;
+  }
+  .btn-del-cancel {
+    flex: 1; background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--muted); font-size: 12px;
+    padding: 8px; cursor: pointer; font-family: inherit;
+  }
+
+  /* Admin password modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 100; display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: #1a1a2a; border: 1px solid var(--border);
+    border-radius: 18px; padding: 22px 18px;
+    width: 100%; max-width: 320px;
+    display: flex; flex-direction: column; gap: 14px;
+    animation: fadeUp 0.2s ease;
+  }
+  .modal-box h4 { font-size: 15px; font-weight: 700; color: var(--text); }
+  .modal-box p { font-size: 13px; color: var(--muted); }
+  .modal-err { font-size: 12px; color: #e53935; display: none; }
+  .modal-err.show { display: block; }
+  .modal-btns { display: flex; gap: 8px; }
+  .btn-modal-ok { flex: 1; background: #e53935; border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 700; padding: 12px; cursor: pointer; font-family: inherit; }
+  .btn-modal-cancel { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; padding: 12px; cursor: pointer; font-family: inherit; }
+
+  .empty-comments { text-align: center; padding: 18px 0 8px; font-size: 13px; color: #333; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1e1e2e; border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 18px;
+    font-size: 13px; color: var(--text);
+    opacity: 0; transition: opacity 0.25s, transform 0.25s;
+    z-index: 200; white-space: nowrap; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- VIDEO -->
+<div class="video-wrap">
+  <iframe id="ytPlayer"
+    src=""
+    allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <div class="end-overlay" id="endOverlay">
+    <p>🎬 Video එක ඉවරයි</p>
+    <button class="replay-btn" onclick="replayVideo()">↩ නැවත බලන්න</button>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips-bar">
+  <div class="tip-row"><span class="tip-icon">📱</span><span>Phone එකෙන් බලනවා නම් — <b>video දකුණු පහළ කෙළවරේ ↗ ඇති කොටුව</b> ස්පර්ශ කරන්න full screen වෙනවා</span></div>
+  <div class="tip-row"><span class="tip-icon">⚙️</span><span>Quality වෙනස් කරන්න — player එකේ <b>⚙️ icon එක</b> ස්පර්ශ කරලා <b>Quality</b> තෝරන්න</span></div>
+</div>
+
+<div class="below-video">
+
+  <!-- MESSAGE FORM -->
+  <div class="msg-card">
+    <div class="card-header"><span class="emoji">💬</span><h3>ඔයාගෙ ප්‍රශ්නය කියන්න</h3></div>
+    <div class="progress-dots">
+      <div class="dot done" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+    </div>
+    <div class="step active" id="step1">
+      <div class="step-label">👤 ඔයාගේ නම</div>
+      <input type="text" id="inputName" placeholder="නම" maxlength="50" autocomplete="off">
+      <div class="btn-row"><button class="btn-next" onclick="goStep2()">ඊළඟ →</button></div>
+    </div>
+    <div class="step" id="step2">
+      <div class="step-label">📞 Phone Number <span style="color:#444;font-size:12px">(ලක්මිණ)</span></div>
+      <input type="tel" id="inputPhone" placeholder="+94 788 637 885" maxlength="20" autocomplete="off">
+      <div class="btn-row">
+        <button class="btn-skip" onclick="goStep3()">Skip</button>
+        <button class="btn-next" onclick="goStep3()">ඊළඟ →</button>
+      </div>
+    </div>
+    <div class="step" id="step3">
+      <div class="step-label">✍️ ඔයාගේ ප්‍රශ්නය හෝ Message</div>
+      <textarea id="inputMsg" rows="4" placeholder="ප්‍රශ්නය ලියන්න..."></textarea>
+      <div class="btn-row"><button class="btn-next" id="sendBtn" onclick="sendMsg()">යවන්න ✈️</button></div>
+    </div>
+    <div class="step" id="stepDone">
+      <div class="success-msg">
+        <div class="s-icon">✅</div>
+        <p><strong>Message එක ගිහිල්ලා!</strong><br>ඉක්මනටම reply කරනවා 🙏</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMENT BOX -->
+  <div class="comment-card">
+    <div class="card-header">
+      <span class="emoji">🗨️</span>
+      <h3>Comments <span id="commentCount" style="color:var(--muted);font-weight:400;font-size:13px"></span></h3>
+    </div>
+    <div class="comment-form">
+      <input type="text" id="cmtName" placeholder="ඔයාගේ නම" maxlength="40" autocomplete="off">
+      <textarea id="cmtText" rows="3" placeholder="ඔයාගේ comment ලියන්න..."></textarea>
+      <button class="btn-comment" onclick="postComment()"><span>💬</span> Comment දාන්න</button>
+    </div>
+    <div class="comment-divider" id="cmtDivider"></div>
+    <div class="comment-list" id="commentList">
+      <div class="empty-comments" id="emptyMsg">පළමු comment එක ඔයා දාන්න! 👇</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Admin password modal -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-box">
+    <h4>🔐 Admin Confirm</h4>
+    <p>Delete කරන්න password දෙන්න</p>
+    <input type="password" id="adminPass" placeholder="Password" autocomplete="off">
+    <div class="modal-err" id="modalErr">❌ Password වැරදියි</div>
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-ok" onclick="confirmDelete()">Delete 🗑️</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ════════════════════════════════════════════════════════════
+     VIDEO LINK — මෙතන විතරක් video එකේ YouTube link එක දාන්න.
+     සම්පූර්ණ link එකම (https://youtube.com/watch?v=... හෝ
+     https://youtu.be/... හෝ video ID එක විතරක්) paste කරන්න පුළුවන්.
+     ════════════════════════════════════════════════════════════ */
+  const YOUTUBE_LINK = 'https://youtu.be/gvKmSQID41E?si=pqZENRnJIhXCQEPC';
+
+  const BOT = '8524435746:AAGpGH-ygNIUIsn9NGFZBsMUaKDDRpus8eI';
+  const CID = '7883989086';
+  const ADMIN_PASS = '0788637885'; // ← password මෙතන වෙනස් කරන්න
+
+  /* Extract the YouTube video ID from any link format the person pastes */
+  function extractYouTubeId(input) {
+    const s = (input || '').trim();
+    const patterns = [
+      /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+      /^([a-zA-Z0-9_-]{11})$/
+    ];
+    for (const p of patterns) {
+      const m = s.match(p);
+      if (m) return m[1];
+    }
+    return s; // fallback: assume it's already an ID
+  }
+
+  const VIDEO_ID = extractYouTubeId(YOUTUBE_LINK);
+
+  /* Build the embed URL and set it on the iframe */
+  document.getElementById('ytPlayer').src =
+    `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?rel=0&modestbranding=1&controls=1&iv_load_policy=3&enablejsapi=1&widgetid=1`;
+
+  /* ── YouTube IFrame API ── */
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('ytPlayer', { events: { onStateChange: function(e) {
+      if (e.data === 0) document.getElementById('endOverlay').classList.add('show');
+      else document.getElementById('endOverlay').classList.remove('show');
+    }}});
+  }
+  function replayVideo() {
+    document.getElementById('endOverlay').classList.remove('show');
+    if (player && player.seekTo) { player.seekTo(0); player.playVideo(); }
+  }
+
+  /* ── Message Form ── */
+  function showStep(n) {
+    ['step1','step2','step3','stepDone'].forEach(id => document.getElementById(id).classList.remove('active'));
+    document.getElementById('step'+n).classList.add('active');
+    document.getElementById('d1').classList.toggle('done',n>=1);
+    document.getElementById('d2').classList.toggle('done',n>=2);
+    document.getElementById('d3').classList.toggle('done',n>=3);
+  }
+  function goStep2() {
+    if (!document.getElementById('inputName').value.trim()) { document.getElementById('inputName').focus(); return; }
+    showStep(2); setTimeout(()=>document.getElementById('inputPhone').focus(),80);
+  }
+  function goStep3() { showStep(3); setTimeout(()=>document.getElementById('inputMsg').focus(),80); }
+  async function sendMsg() {
+    const name = document.getElementById('inputName').value.trim()||'—';
+    const phone = document.getElementById('inputPhone').value.trim()||'__';
+    const msg = document.getElementById('inputMsg').value.trim();
+    if (!msg) { document.getElementById('inputMsg').focus(); return; }
+    const btn = document.getElementById('sendBtn');
+    btn.innerHTML = '<span class="spinner"></span> යවනවා...'; btn.disabled = true;
+    const text = `📩 Move-Hub-Message\n\n👤 නම: ${name}\n📞 Phone: ${phone}\n\n✍️ Message:\n${msg}`;
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CID,text})});
+      if (res.ok) showStep('Done'); else throw new Error();
+    } catch { btn.innerHTML='🔄 නැවත try කරන්න'; btn.disabled=false; }
+  }
+  document.addEventListener('keydown',e=>{
+    if (e.key!=='Enter'||e.shiftKey) return;
+    if (document.getElementById('step1').classList.contains('active')) { e.preventDefault(); goStep2(); }
+    else if (document.getElementById('step2').classList.contains('active')) { e.preventDefault(); goStep3(); }
+  });
+
+  /* ── Comments (shared via jsonbin.io so everyone sees the same comments) ── */
+  const JSONBIN_BIN_ID = '6a413c7fa8b6024c7625a445';
+  const JSONBIN_API_KEY = '$2a$10$pqq2UKLfm7xdkR/hXsIH4OGNUaT/W4uTGLK7nsk8rWGpDDUdamah2';
+  const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
+  const DEFAULT_COMMENT = {id:1, name:'Move Hub', text:'ඕන දෙයක් අහන්න / කතා කරන්න ☎️ 0788637885', ts:Date.now(), likes:0, liked:false};
+  let comments = [DEFAULT_COMMENT];
+  let pendingDeleteId = null;
+  let pressTimer = null;
+  let pressTarget = null;
+
+  async function loadComments() {
+    try {
+      const res = await fetch(JSONBIN_URL + '/latest', {
+        headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
+      });
+      if (!res.ok) throw new Error('load failed');
+      const data = await res.json();
+      comments = (data && Array.isArray(data.comments) && data.comments.length>0) ? data.comments : [DEFAULT_COMMENT];
+    } catch (e) {
+      comments = [DEFAULT_COMMENT];
+    }
+    renderComments();
+  }
+
+  async function saveComments() {
+    try {
+      await fetch(JSONBIN_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+        body: JSON.stringify({ comments })
+      });
+    } catch (e) {}
+  }
+
+  const AVATAR_COLORS = [
+    'linear-gradient(135deg,#4f8ef7,#7c5ef7)',
+    'linear-gradient(135deg,#f7654f,#f7a24f)',
+    'linear-gradient(135deg,#4ff782,#4fb8f7)',
+    'linear-gradient(135deg,#f74fa8,#f7654f)',
+    'linear-gradient(135deg,#a84ff7,#4f8ef7)',
+  ];
+
+  function timeAgo(ts) {
+    const d = Math.floor((Date.now()-ts)/1000);
+    if (d<60) return 'දැන්';
+    if (d<3600) return Math.floor(d/60)+' min කට කලින්';
+    if (d<86400) return Math.floor(d/3600)+' පැය කලින්';
+    return Math.floor(d/86400)+' දින කලින්';
+  }
+
+  function showToast(msg, dur=2200) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), dur);
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* Close all delete popups */
+  function closeAllPopups() {
+    document.querySelectorAll('.delete-popup').forEach(p=>p.classList.remove('show'));
+  }
+
+  /* Long press start */
+  function startPress(avatarEl, id) {
+    cancelPress();
+    pressTarget = avatarEl;
+    avatarEl.classList.add('pressing');
+    pressTimer = setTimeout(()=>{
+      avatarEl.classList.remove('pressing');
+      // Show delete popup for this comment
+      closeAllPopups();
+      const popup = document.getElementById('popup-'+id);
+      if (popup) popup.classList.add('show');
+    }, 1500);
+  }
+
+  function cancelPress() {
+    if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    if (pressTarget) { pressTarget.classList.remove('pressing'); pressTarget = null; }
+  }
+
+  function openAdminModal(id) {
+    closeAllPopups();
+    pendingDeleteId = id;
+    document.getElementById('adminPass').value = '';
+    document.getElementById('modalErr').classList.remove('show');
+    document.getElementById('adminModal').classList.add('show');
+    setTimeout(()=>document.getElementById('adminPass').focus(), 120);
+  }
+
+  function closeModal() {
+    document.getElementById('adminModal').classList.remove('show');
+    pendingDeleteId = null;
+  }
+
+  async function confirmDelete() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass !== ADMIN_PASS) {
+      document.getElementById('modalErr').classList.add('show');
+      document.getElementById('adminPass').value = '';
+      document.getElementById('adminPass').focus();
+      return;
+    }
+    // Find comment
+    const c = comments.find(x=>x.id===pendingDeleteId);
+    if (c) {
+      // Notify Telegram
+      const text = `🗑️ Move-Hub-Comment Deleted\n\n👤 නම: ${c.name}\n✍️ Comment:\n${c.text}`;
+      try {
+        await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({chat_id:CID, text})
+        });
+      } catch(e) {}
+
+      comments = comments.filter(x=>x.id!==pendingDeleteId);
+      saveComments();
+    }
+    closeModal();
+    renderComments();
+    showToast('🗑️ Comment delete කළා');
+  }
+
+  /* Close modal/popup on outside click */
+  document.getElementById('adminModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.delete-popup') && !e.target.closest('.comment-avatar')) {
+      closeAllPopups();
+    }
+  });
+  document.getElementById('adminPass').addEventListener('keydown', e => {
+    if (e.key==='Enter') confirmDelete();
+    if (e.key==='Escape') closeModal();
+  });
+
+  function renderComments() {
+    const list = document.getElementById('commentList');
+    const empty = document.getElementById('emptyMsg');
+    const divider = document.getElementById('cmtDivider');
+    const countEl = document.getElementById('commentCount');
+
+    countEl.textContent = comments.length>0 ? `(${comments.length})` : '';
+    list.querySelectorAll('.comment-item').forEach(el=>el.remove());
+
+    if (comments.length===0) {
+      empty.style.display='block'; divider.classList.remove('show'); return;
+    }
+    empty.style.display='none'; divider.classList.add('show');
+
+    [...comments].reverse().forEach(c=>{
+      const colorIdx = c.name.charCodeAt(0) % AVATAR_COLORS.length;
+      const initial = c.name.trim().charAt(0).toUpperCase()||'?';
+
+      const item = document.createElement('div');
+      item.className='comment-item'; item.dataset.id=c.id;
+
+      item.innerHTML = `
+        <div class="comment-avatar" id="avatar-${c.id}"
+             style="background:${AVATAR_COLORS[colorIdx]}"
+             title="길게 누르면 삭제 옵션">
+          ${escHtml(initial)}
+          <svg class="avatar-ring" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18"/>
+          </svg>
+          <!-- Delete popup -->
+          <div class="delete-popup" id="popup-${c.id}">
+            <p>이 comment 삭제할까요?</p>
+            <div class="delete-popup-btns">
+              <button class="btn-del-cancel" onclick="closeAllPopups()">Cancel</button>
+              <button class="btn-del-confirm" onclick="openAdminModal(${c.id})">Delete 🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-meta">
+            <span class="comment-name">${escHtml(c.name)}</span>
+            <span class="comment-time">${timeAgo(c.ts)}</span>
+          </div>
+          <div class="comment-text">${escHtml(c.text)}</div>
+          <button class="comment-like ${c.liked?'liked':''}" onclick="toggleLike(${c.id})">
+            ${c.liked?'👍':'🤍'} ${c.likes>0?c.likes:''}
+          </button>
+        </div>
+      `;
+
+      // Long press events on avatar
+      const av = item.querySelector('.comment-avatar');
+      // Touch
+      av.addEventListener('touchstart', e=>{ e.preventDefault(); startPress(av, c.id); }, {passive:false});
+      av.addEventListener('touchend', cancelPress);
+      av.addEventListener('touchmove', cancelPress);
+      // Mouse
+      av.addEventListener('mousedown', ()=>startPress(av, c.id));
+      av.addEventListener('mouseup', cancelPress);
+      av.addEventListener('mouseleave', cancelPress);
+
+      list.appendChild(item);
+    });
+  }
+
+  function toggleLike(id) {
+    const c = comments.find(x=>x.id===id);
+    if (!c) return;
+    c.liked=!c.liked; c.likes=c.liked?c.likes+1:Math.max(0,c.likes-1);
+    renderComments();
+    saveComments();
+  }
+
+  async function postComment() {
+    const nameEl = document.getElementById('cmtName');
+    const textEl = document.getElementById('cmtText');
+    const name = nameEl.value.trim();
+    const text = textEl.value.trim();
+    if (!name) { nameEl.focus(); nameEl.style.borderColor='#e53935'; setTimeout(()=>nameEl.style.borderColor='',1200); return; }
+    if (!text) { textEl.focus(); textEl.style.borderColor='#e53935'; setTimeout(()=>textEl.style.borderColor='',1200); return; }
+
+    const btn = document.querySelector('.btn-comment');
+    btn.disabled=true; btn.innerHTML='<span class="spinner"></span> දානවා...';
+
+    const tgText = `💬 Move-Hub-Comment\n\n👤 නම: ${name}\n\n✍️ Comment:\n${text}`;
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:CID,text:tgText})
+      });
+    } catch(e){}
+
+    comments.push({id:Date.now(), name, text, ts:Date.now(), likes:0, liked:false});
+    nameEl.value=''; textEl.value='';
+    btn.disabled=false; btn.innerHTML='<span>💬</span> Comment දාන්න';
+    renderComments();
+    saveComments();
+    showToast('✅ Comment add කළා!');
+    document.getElementById('commentList').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  loadComments();
+</script>
+</body>
+</html>  
