@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Love Page - Lakmina King👑️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #0f051d, #1a0b2e, #050510);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            background: rgba(25, 10, 40, 0.75);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 0, 127, 0.4);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.3), inset 0 0 15px rgba(255, 0, 127, 0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .heart {
+            font-size: 50px;
+            color: #ff007f;
+            text-shadow: 0 0 20px rgba(255, 0, 127, 0.8);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        h1 {
+            font-size: 26px;
+            color: #ff66b2;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 102, 178, 0.5);
+        }
+        p {
+            color: #d8b4fe;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .love-btn {
+            background: linear-gradient(135deg, #ff007f, #9333ea);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+            transition: all 0.3s ease;
+        }
+        .love-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.8);
+        }
+        .hidden-message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fbcfe8;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .hidden-message.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">💖</div>
+        <h1>ඔබ වෙනුවෙන් විශේෂයි</h1>
+        <p>මගේ හදවතේ ගැඹුරින්ම ඔබ වෙනුවෙන් රැඳුණු ආදරය සහ සෙනෙහස සදාකාලිකයි. ඔබ මගේ ජීවිතයට ලැබුණු සුන්දරම තෑග්ගයි.</p>
+        <button class="love-btn" onclick="revealMessage()">විශේෂ පණිවිඩය බලන්න</button>
+        <div id="msg" class="hidden-message">
+            <p style="margin-top: 15px; color: #ff80bf; font-weight: bold;">"සදාකාලයටම මගේ ළඟින්ම ඉන්න... මම ඔබට බොහෝ සේ ආදරෙයි!" ✨</p>
+        </div>
+    </div>
+
+    <script>
+        function revealMessage() {
+            const msg = document.getElementById('msg');
+            msg.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

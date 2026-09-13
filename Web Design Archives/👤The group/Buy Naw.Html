@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Contacts</title>
+<style>
+  :root{
+    --bg:#000000;
+    --panel:#111214;
+    --border:#2a2a2a;
+    --accent:#00e676;
+    --text:#ffffff;
+    --sub:#a8a8a8;
+    --danger:#ff5252;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:16px;}
+
+  /* Search bar */
+  .search-bar{
+    display:flex;align-items:center;gap:10px;
+    border:2px solid var(--accent);
+    border-radius:30px;
+    padding:12px 18px;
+    margin-bottom:18px;
+    background:#0a0a0a;
+  }
+  .search-bar svg{flex-shrink:0;}
+  .search-bar input{
+    background:transparent;border:none;outline:none;
+    color:var(--text);font-size:15px;width:100%;
+  }
+  .search-bar input::placeholder{color:#888;}
+
+  /* Contact list */
+  .contact{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 4px;
+    cursor:pointer;
+    border-radius:10px;
+    transition:background .15s ease;
+  }
+  .contact:hover{background:#141414;}
+  .avatar{
+    width:48px;height:48px;border-radius:50%;
+    object-fit:cover;flex-shrink:0;
+    background:#1e1e1e;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;color:#000;
+  }
+  .avatar.icon{
+    background:linear-gradient(135deg,#1a7f52,#0f5132);
+  }
+  .contact-info{overflow:hidden;}
+  .contact-name{
+    font-size:14.5px;
+    color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .contact-name b{font-weight:600;}
+  .no-result{
+    text-align:center;color:var(--sub);padding:40px 10px;font-size:14px;
+  }
+
+  /* Password overlay */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.85);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:center;justify-content:center;
+    z-index:1000;
+    padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:28px 24px;
+    width:100%;max-width:360px;
+    text-align:center;
+    animation:pop .25s ease;
+  }
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal .avatar{width:64px;height:64px;margin:0 auto 14px;font-size:22px;}
+  .modal h2{font-size:17px;margin-bottom:6px;}
+  .modal p.hint{color:var(--sub);font-size:13px;margin-bottom:18px;}
+  .modal input[type="password"]{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#000;
+    color:var(--text);
+    font-size:15px;
+    margin-bottom:8px;
+    outline:none;
+    text-align:center;
+    letter-spacing:2px;
+  }
+  .modal input[type="password"]:focus{border-color:var(--accent);}
+  .error-msg{
+    color:var(--danger);font-size:12.5px;min-height:16px;margin-bottom:10px;
+  }
+  .btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:6px;
+  }
+  .btn-primary{background:var(--accent);color:#000;}
+  .btn-primary:active{transform:scale(.98);}
+  .btn-ghost{background:transparent;color:var(--sub);margin-top:10px;font-weight:normal;font-size:13px;}
+
+  /* Reveal panel */
+  .reveal{display:none;}
+  .reveal.show{display:block;}
+  .reveal .avatar{width:80px;height:80px;margin:0 auto 14px;font-size:26px;}
+  .reveal h2{font-size:19px;margin-bottom:4px;}
+  .reveal .meta{color:var(--sub);font-size:13px;margin-bottom:16px;}
+  .reveal .message{
+    background:#0a0a0a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    font-size:14px;
+    line-height:1.6;
+    color:#e6e6e6;
+    margin-bottom:18px;
+    text-align:left;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Search -->
+  <div class="search-bar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Search name, number or @username">
+  </div>
+
+  <!-- Contact list -->
+  <div id="contactList"></div>
+  <div id="noResult" class="no-result" style="display:none;">Search result හමු නොවුණි</div>
+</div>
+
+<!-- Password overlay -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+
+    <!-- Step 1: password entry -->
+    <div id="passStep">
+      <div class="avatar" id="modalAvatar"></div>
+      <h2 id="modalName"></h2>
+      <p class="hint">මේ පණිවිඩය බලන්න password එක ඇතුළත් කරන්න</p>
+      <input type="password" id="passInput" placeholder="Password" autocomplete="off">
+      <div class="error-msg" id="errorMsg"></div>
+      <button class="btn btn-primary" onclick="checkPassword()">තහවුරු කරන්න</button>
+      <button class="btn btn-ghost" onclick="closeOverlay()">Cancel</button>
+    </div>
+
+    <!-- Step 2: revealed message -->
+    <div id="revealStep" class="reveal">
+      <div class="avatar" id="revealAvatar"></div>
+      <h2 id="revealName"></h2>
+      <div class="meta" id="revealMeta"></div>
+      <div class="message" id="revealMessage"></div>
+      <button class="btn btn-primary" onclick="goContinue()">Continue</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONTACT DATA
+   - name        : contact display name / details line
+   - initials    : shown when no photo is set (image: "")
+   - image       : photo URL (leave "" to use colored initials icon)
+   - password    : the codeword required to reveal the message
+   - message     : the personalised text shown after correct password
+   - redirect    : page opened after "Continue" is clicked
+   ========================================================= */
+const contacts = [
+  {
+    name: "අමිල්",
+    initials: "A",
+    image: "https://th.bing.com/th/id/OIP.XYj3_BLGvtz1XHMtC4XPjwHaHa?w=177&h=150&c=6&r=0&o=7&pid=1.7&rm=3",
+    password: "788",
+    message: "ආයුබෝවන් අමිල්! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "01.html"
+  },
+  {
+    name: " ඉල්හාම්",
+    initials: "I",
+    image: "https://th.bing.com/th/id/OIP.X4Xm9ZtWPO3OwtpSYdfstQHaHa?w=159&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
+    password: "1234",
+    message: "ආයුබෝවන් ඉල්හාම්! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "ඉවංක",
+    initials: "I",
+    image: "https://th.bing.com/th?q=Imej+Bulan+Besar&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&pid=InlineBlock&rm=3&mkt=en-SG&cc=SG&setlang=en&adlt=strict&t=1&mw=247",
+    password: "1234",
+    message: "ආයුබෝවන් ඉවංක! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "ඉසුරු",
+    initials: "I",
+    image: "https://th.bing.com/th/id/OIP.XYj3_BLGvtz1XHMtC4XPjwHaHa?w=177&h=150&c=6&r=0&o=7&pid=1.7&rm=3",
+    password: "1234",
+    message: "ආයුබෝවන් ඉසුරු! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "ඉසුර ",
+    initials: "I",
+    image: "https://th.bing.com/th?q=Imej+Logo.jpg&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&pid=InlineBlock&rm=3&mkt=en-SG&cc=SG&setlang=en&adlt=strict&t=1&mw=247",
+    password: "1234",
+    message: "ආයුබෝවන් ඉසුරු! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "උදාර )",
+    initials: "U",
+    image: "https://th.bing.com/th?q=Imej+Kartun&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&pid=InlineBlock&rm=3&mkt=en-SG&cc=SG&setlang=en&adlt=strict&t=1&mw=247",
+    password: "1234",
+    message: "ආයුබෝවන් උදාර! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "උදික )",
+    initials: "U",
+    image: "https://th.bing.com/th?q=Imej+Bulan&w=120&h=120&c=1&rs=1&qlt=70&r=0&o=7&cb=1&pid=InlineBlock&rm=3&mkt=en-SG&cc=SG&setlang=en&adlt=strict&t=1&mw=247",
+    password: "1234",
+    message: "ආයුබෝවන් උදික! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "උෂාන්",
+    initials: "U",
+    image: "https://th.bing.com/th?q=Imej%20Comel&pid=ImgDet&w=150&h=150&c=1&p=1&rs=1&t=1&mkt=en-sg&adlt=strict&o=7&rm=3",
+    password: "1234",
+    message: "ආයුබෝවන් උෂාන්! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "උෂාන් ",
+    initials: "U",
+    image: "https://th.bing.com/th?q=Potret%20Imej&pid=ImgDet&w=150&h=150&c=1&p=1&rs=1&t=1&mkt=en-sg&adlt=strict&o=7&rm=3",
+    password: "1234",
+    message: "ආයුබෝවන් උෂාන්! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  },
+  {
+    name: "චිරන්ද",
+    initials: "C",
+    image: "https://th.bing.com/th?q=Imej%20Kenderaan&pid=ImgDet&w=150&h=150&c=1&p=1&rs=1&t=1&mkt=en-sg&adlt=strict&o=7&rm=3",
+    password: "1234",
+    message: "ආයුබෝවන් චිරන්ද! මේ ඔයාට විශේෂ පණිවිඩයක්... 💚",
+    redirect: "1.html"
+  }
+];
+
+let activeContact = null;
+
+function avatarHTML(c){
+  if(c.image){
+    return `<img src="${c.image}" class="avatar" alt="${c.initials}">`;
+  }
+  return `<div class="avatar icon">${c.initials}</div>`;
+}
+
+function renderList(list){
+  const box = document.getElementById('contactList');
+  const noResult = document.getElementById('noResult');
+  box.innerHTML = '';
+
+  if(list.length === 0){
+    noResult.style.display = 'block';
+    return;
+  }
+  noResult.style.display = 'none';
+
+  list.forEach((c, idx) => {
+    const row = document.createElement('div');
+    row.className = 'contact';
+    row.onclick = () => openPassword(idx);
+    row.innerHTML = `
+      ${avatarHTML(c)}
+      <div class="contact-info">
+        <div class="contact-name">${c.name}</div>
+      </div>
+    `;
+    box.appendChild(row);
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  const filtered = contacts.filter(c => c.name.toLowerCase().includes(q));
+  renderList(filtered);
+});
+
+function openPassword(idx){
+  activeContact = contacts[idx];
+  document.getElementById('modalAvatar').outerHTML = avatarHTML(activeContact).replace('class="avatar"','class="avatar" id="modalAvatar"').replace('class="avatar icon"','class="avatar icon" id="modalAvatar"');
+  document.getElementById('modalName').textContent = activeContact.name;
+  document.getElementById('passInput').value = '';
+  document.getElementById('errorMsg').textContent = '';
+  document.getElementById('passStep').style.display = 'block';
+  document.getElementById('revealStep').classList.remove('show');
+  document.getElementById('overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('passInput').focus(), 100);
+}
+
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('open');
+  activeContact = null;
+}
+
+function checkPassword(){
+  const val = document.getElementById('passInput').value.trim();
+  const err = document.getElementById('errorMsg');
+
+  if(!activeContact) return;
+
+  if(val === activeContact.password){
+    err.textContent = '';
+    document.getElementById('passStep').style.display = 'none';
+
+    const revealAvatarBox = document.getElementById('revealAvatar');
+    revealAvatarBox.outerHTML = avatarHTML(activeContact).replace('class="avatar"','class="avatar" id="revealAvatar"').replace('class="avatar icon"','class="avatar icon" id="revealAvatar"');
+
+    document.getElementById('revealName').textContent = activeContact.name.split('/')[0].trim();
+    document.getElementById('revealMeta').textContent = activeContact.name;
+    document.getElementById('revealMessage').textContent = activeContact.message;
+    document.getElementById('revealStep').classList.add('show');
+  } else {
+    err.textContent = 'වැරදි password එකක්, ආයෙත් උත්සාහ කරන්න';
+    document.getElementById('passInput').value = '';
+    document.getElementById('passInput').focus();
+  }
+}
+
+document.getElementById('passInput').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') checkPassword();
+});
+
+function goContinue(){
+  if(activeContact && activeContact.redirect){
+    window.location.href = activeContact.redirect;
+  }
+}
+
+renderList(contacts);
+</script>
+</body>
+</html>
